@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/themes/styles.dart';
+import 'package:flutter_simple_blog/utils/styles.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text('Simple Blog'),
         ),
-        backgroundColor: AppTheme.primary.color,
+        backgroundColor: AppColors.primary.color,
       ),
       drawer: NavigationBar(),
       body: Column(children: const [PostsView()]),
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () => {},
       ),
-      backgroundColor: AppTheme.bg.color,
+      backgroundColor: AppColors.bg.color,
     );
   }
 }
@@ -41,7 +41,7 @@ class NavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(backgroundColor: AppTheme.primary.color);
+    return Drawer(backgroundColor: AppColors.primary.color);
   }
 }
 

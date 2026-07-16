@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/themes/styles.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

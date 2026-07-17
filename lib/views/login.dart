@@ -5,12 +5,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(actions: [
-        
-      ],),
-      body: LoginForm(),
-    );
+    return LoginForm();
   }
 }
 
@@ -43,12 +38,21 @@ class _LoginFormState extends State<LoginForm> {
     /** TODO(homusys): 
      * Return a boolean value based on the result. Will be used for clearing the 
      * form inputs. */
+
+    _usernameController.clear();
+    _passwordController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    final usernameField = LoginField(controller: _usernameController);
-    final passwordField = LoginField(controller: _passwordController);
+    final usernameField = LoginField(
+      controller: _usernameController,
+      labelText: 'Username or Email',
+    );
+    final passwordField = LoginField(
+      controller: _passwordController,
+      labelText: 'Password',
+    );
 
     return Padding(
       padding: EdgeInsetsGeometry.all(8.0),

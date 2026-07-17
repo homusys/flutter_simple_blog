@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -45,13 +46,14 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final usernameField = LoginField(
+    final usernameField = CustomTextField(
       controller: _usernameController,
       labelText: 'Username or Email',
     );
-    final passwordField = LoginField(
+    final passwordField = CustomTextField(
       controller: _passwordController,
       labelText: 'Password',
+      obscureText: true,
     );
 
     return Padding(
@@ -73,36 +75,36 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-class LoginField extends StatelessWidget {
-  LoginField({
-    super.key,
-    this.labelText = 'Placeholder',
-    this.onLogin,
-    required this.controller,
-    this.maxLength = 255,
-  });
+// class LoginField extends StatelessWidget {
+//   LoginField({
+//     super.key,
+//     this.labelText = 'Placeholder',
+//     this.onLogin,
+//     required this.controller,
+//     this.maxLength = 255,
+//   });
 
-  final void Function(String)? onLogin;
-  final String labelText;
-  final int maxLength;
+//   final void Function(String)? onLogin;
+//   final String labelText;
+//   final int maxLength;
 
-  final TextEditingController controller;
-  final FocusNode _focusNode = FocusNode();
+//   final TextEditingController controller;
+//   final FocusNode _focusNode = FocusNode();
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      autofocus: true,
-      maxLength: maxLength,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        labelText: labelText,
-      ),
-      controller: controller,
-      focusNode: _focusNode,
-      onSubmitted: null,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextField(
+//       autofocus: true,
+//       maxLength: maxLength,
+//       decoration: InputDecoration(
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(12)),
+//         ),
+//         labelText: labelText,
+//       ),
+//       controller: controller,
+//       focusNode: _focusNode,
+//       onSubmitted: null,
+//     );
+//   }
+// }

@@ -53,10 +53,10 @@ class _PostItemState extends State<PostItem> {
   }
 
   Widget createPostActionsContainer() {
-    Widget likeButton = createPostActions(() {}, Icons.thumb_up_outlined);
+    // Widget likeButton = createPostActions(() {}, Icons.thumb_up_outlined);
     Widget commentButton = createPostActions(() {}, Icons.chat_bubble);
 
-    return Row(children: [likeButton, commentButton]);
+    return Row(children: [/*likeButton, */ commentButton]);
   }
 
   Widget createPostActions(

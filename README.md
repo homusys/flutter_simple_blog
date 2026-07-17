@@ -1,18 +1,7 @@
-<style>
-    .header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 ![blogSvgIcon](./docs/images/mdi--blog.png)
-<header class="header">
-    <h1>
-        Simple Blog App in Flutter
-    </h1>
-    <p> A simple blog application made with flutter </p>
-</header>
+# Simple Blog App
+
+A simple blog application made with flutter
 
 ## Contents
 1. [Features](#features)

@@ -39,14 +39,19 @@ class AppNavigatorState extends State<AppNavigator> {
   }
 
   final pages = <Widget>[HomePage(), CreatePostPage(), LoginPage()];
+  final appBarPageLabels = <String>[
+    "Simple Blog App",
+    "Create new post",
+    "Profile",
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Align(
-          alignment: Alignment.centerLeft,
-          child: Text('Simple Blog'),
+          alignment: Alignment.center,
+          child: Text(appBarPageLabels[currentPageIndex]),
         ),
         backgroundColor: AppColors.primary.color,
       ),
@@ -60,7 +65,6 @@ class AppNavigatorState extends State<AppNavigator> {
           NavigationDestination(icon: Icon(Icons.portrait), label: 'Guest'),
         ],
       ),
-      backgroundColor: AppColors.bg.color,
     );
   }
 }

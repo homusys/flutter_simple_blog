@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/utils/styles.dart';
 import 'views/home.dart';
+import 'views/create_post_page.dart';
 import 'views/login.dart';
 
 void main() {
@@ -11,6 +13,54 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginPage(), debugShowCheckedModeBanner: false);
+    /**TODO(homusyus): Add a theme for the app */
+    return MaterialApp(
+      title: 'Simple Blog App',
+      home: AppNavigator(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class AppNavigator extends StatefulWidget {
+  const AppNavigator({super.key});
+
+  @override
+  State<AppNavigator> createState() => AppNavigatorState();
+}
+
+class AppNavigatorState extends State<AppNavigator> {
+  int currentPageIndex = 0;
+
+  void updatePageIndex(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
+
+  final pages = <Widget>[HomePage(), CreatePostPage(), LoginPage()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Text('Simple Blog'),
+        ),
+        backgroundColor: AppColors.primary.color,
+      ),
+      body: pages[currentPageIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: currentPageIndex,
+        onDestinationSelected: updatePageIndex,
+        destinations: const <NavigationDestination>[
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),
+          NavigationDestination(icon: Icon(Icons.portrait), label: 'Guest'),
+        ],
+      ),
+      backgroundColor: AppColors.bg.color,
+    );
   }
 }

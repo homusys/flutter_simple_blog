@@ -22,9 +22,6 @@ lib/
 │   ├── user.dart
 │   ├── post.dart
 │   └── comment.dart
-├── services/
-│   ├── auth_service.dart
-│   └── supabase_service.dart
 ├── views/
 │   ├── login_page.dart
 │   ├── home_page.dart

@@ -6,35 +6,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Text('Simple Blog'),
-        ),
-        backgroundColor: AppColors.primary.color,
-      ),
-      drawer: SideBar(),
-      body: Column(children: const [Expanded(child: PostsView())]),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'New Post'),
-          BottomNavigationBarItem(icon: Icon(Icons.portrait), label: 'Guest'),
-        ],
-      ),
-      backgroundColor: AppColors.bg.color,
-    );
-  }
-}
-
-/// TODO(homusys): Do something about the sidebar.
-class SideBar extends StatelessWidget {
-  const SideBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(backgroundColor: AppColors.primary.color);
+    return Column(children: [Expanded(child: PostsView())]);
   }
 }
 
@@ -45,7 +17,7 @@ class PostsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [for (var i = 0; i < 20; ++i) PostItem()]);
+    return ListView(children: [for (var i = 0; i < 10; ++i) PostItem()]);
   }
 }
 

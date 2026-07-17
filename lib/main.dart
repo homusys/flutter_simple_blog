@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/utils/styles.dart';
-import 'views/home.dart';
+import 'views/home_page.dart';
 import 'views/create_post_page.dart';
-import 'views/login.dart';
+import 'views/login_page.dart';
 
 void main() {
   runApp(const MainApp());

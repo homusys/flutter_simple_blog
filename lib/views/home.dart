@@ -19,17 +19,9 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'New Post'),
           BottomNavigationBarItem(icon: Icon(Icons.portrait), label: 'Guest'),
         ],
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => {},
       ),
       backgroundColor: AppColors.bg.color,
     );
@@ -116,16 +108,13 @@ class _PostItemState extends State<PostItem> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4, 1, 4, 0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           print("Clicked");
         },
-        child: Container(
+        child: Ink(
+          color: Color.fromARGB(255, 225, 199, 199),
           padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(1.0)),
-            color: Color.fromARGB(255, 209, 210, 247),
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -140,6 +129,6 @@ class _PostItemState extends State<PostItem> {
   }
 }
 
-/// TODO(homusys): Create the structure of a simple post and its comments.
+/// TODO(homusys):
 /// The post is something clickable and pushes another view on the stack so
 /// that the user is able to view the content and all the comments.

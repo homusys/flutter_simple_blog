@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/utils/styles.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'views/home_page.dart';
 import 'views/create_post_page.dart';
 import 'views/login_page.dart';
 
-void main() {
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://wgwdehciypbjpesrmlui.supabase.co',
+    publishableKey: 'sb_publishable_fh9vaOsuX8sRyBihL0J9kA_DeRhlYWj',
+  );
   runApp(const MainApp());
 }
 

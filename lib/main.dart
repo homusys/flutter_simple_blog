@@ -65,7 +65,10 @@ class AppNavigatorState extends State<AppNavigator> {
         destinations: const <NavigationDestination>[
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),
-          NavigationDestination(icon: Icon(Icons.portrait), label: 'Guest'),
+          NavigationDestination(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+          ),
         ],
       ),
     );

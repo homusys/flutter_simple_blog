@@ -77,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
                 MaterialPageRoute(builder: (context) => RegisterPage()),
               );
             },
-            child: Text('Register'),
+            child: Text("Don't have an account?"),
           ),
         ],
       ),

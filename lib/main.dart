@@ -54,11 +54,9 @@ class AppNavigatorState extends State<AppNavigator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Align(
-          alignment: Alignment.center,
-          child: Text(appBarPageLabels[currentPageIndex]),
-        ),
+        title: Text(appBarPageLabels[currentPageIndex]),
         backgroundColor: AppColors.primary.color,
+        centerTitle: true,
       ),
       body: pages[currentPageIndex],
       bottomNavigationBar: NavigationBar(

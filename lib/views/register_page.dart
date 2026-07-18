@@ -16,6 +16,8 @@ class RegisterPage extends StatelessWidget {
           onPressed: () => backToLoginPage(context),
           icon: Icon(Icons.arrow_back_rounded),
         ),
+        title: Text('Create an account'),
+        centerTitle: true,
       ),
       body: RegisterForm(),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,12 +12,41 @@ class HomePage extends StatelessWidget {
 
 /// The PostsView is a class that will contain all of the posts from the
 /// database.
-class PostsView extends StatelessWidget {
+class PostsView extends StatefulWidget {
   const PostsView({super.key});
 
   @override
+  State<PostsView> createState() => _PostsViewState();
+}
+
+class _PostsViewState extends State<PostsView> {
+  final _future = Supabase.instance.client.from('posts').select();
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(children: [for (var i = 0; i < 10; ++i) PostItem()]);
+    return FutureBuilder(
+      future: _future,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final posts = snapshot.data!;
+
+        if (posts.isEmpty) {
+          return Text('There are no posts.');
+        }
+
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            final postItem = posts[index];
+            return PostItem(
+              email: postItem['user_id'],
+              title: postItem['title'],
+            );
+          },
+        );
+      },
+    );
   }
 }
 
@@ -26,20 +56,25 @@ class PostsView extends StatelessWidget {
 /// poster, then the post can be edited by that user. Otherwise, the current
 /// user is only able to read and react the post.
 class PostItem extends StatefulWidget {
-  const PostItem({super.key});
+  const PostItem({super.key, this.email = 0, this.title = 'testtitle'});
+
+  final int email;
+  final String title;
 
   @override
   State<PostItem> createState() => _PostItemState();
 }
 
 class _PostItemState extends State<PostItem> {
-  Widget createPostHeader(String username) {
+  String _imageSrc = 'Sample Image';
+
+  Widget createPostHeader(int email) {
     return Row(
       children: [
         Container(
           decoration: BoxDecoration(color: Color.fromARGB(255, 25, 25, 212)),
         ),
-        Container(child: Text(username)),
+        Container(child: Text('$email')),
       ],
     );
   }
@@ -71,10 +106,6 @@ class _PostItemState extends State<PostItem> {
     );
   }
 
-  String _user = 'User';
-  String _title = 'Placeholder Title';
-  String _imageSrc = 'Sample Image';
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,8 +120,8 @@ class _PostItemState extends State<PostItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              createPostHeader(_user),
-              createPostBody(_title, _imageSrc),
+              createPostHeader(widget.email),
+              createPostBody(widget.title, _imageSrc),
               createPostActionsContainer(),
             ],
           ),

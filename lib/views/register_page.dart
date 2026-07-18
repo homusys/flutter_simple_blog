@@ -52,8 +52,8 @@ class _RegisterFormState extends State<RegisterForm> {
               onPressed: () => {
                 UsersController.registerUser(
                   _formKey,
-                  _emailController.text,
-                  _passwordController.text,
+                  _emailController.text.trim(),
+                  _passwordController.text.trim(),
                 ).then((success) => print('Success $success')),
               },
               child: Text('Sign Up'),

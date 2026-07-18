@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/controllers/users_controller.dart';
 import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -38,30 +38,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void registerUser() async {
-    final Session? session;
-    final User? user;
-
-    try {
-      if (!_formKey.currentState!.validate()) {
-        return; // all validations must pass.
-      }
-      final supabase = Supabase.instance.client;
-      final AuthResponse res = await supabase.auth.signUp(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      session = res.session;
-      user = res.user;
-      print('Session $session');
-      print('User $user');
-    } on AuthException catch (error) {
-      print('Auth error: $error');
-    } catch (error) {
-      print('Unhandled exception: $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -72,7 +48,16 @@ class _RegisterFormState extends State<RegisterForm> {
           children: [
             EmailField(controller: _emailController),
             PasswordField(controller: _passwordController),
-            TextButton(onPressed: registerUser, child: Text('Register')),
+            TextButton(
+              onPressed: () => {
+                UsersController.registerUser(
+                  _formKey,
+                  _emailController.text,
+                  _passwordController.text,
+                ).then((success) => print('Success $success')),
+              },
+              child: Text('Sign Up'),
+            ),
           ],
         ),
       ),

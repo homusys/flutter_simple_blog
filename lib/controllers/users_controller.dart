@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersController {
   /// Checks whether an input string is in a valid email address format.
@@ -24,5 +26,33 @@ class UsersController {
       - A special character""";
     }
     return null;
+  }
+
+  static Future<bool> registerUser(
+    GlobalKey<FormState> formKey,
+    String email,
+    String pass,
+  ) async {
+    final SupabaseClient supabase;
+    final AuthResponse res;
+    Session? session;
+    User? user;
+
+    try {
+      if (formKey.currentState!.validate()) {
+        ///TODO(homus): hash the passwords.
+        supabase = Supabase.instance.client;
+        res = await supabase.auth.signUp(email: email, password: pass);
+
+        user = res.user;
+        session = res.session;
+      }
+    } on AuthException catch (error) {
+      ///TODO(homus): handle exceptions.
+      print('Auth error: $error');
+    } catch (error) {
+      print('Unhandled exception: $error');
+    }
+    return (user != null && session != null);
   }
 }

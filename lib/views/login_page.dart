@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/controllers/users_controller.dart';
 import 'package:flutter_simple_blog/views/register_page.dart';
-import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
+import 'package:flutter_simple_blog/widgets/email_field.dart';
+import 'package:flutter_simple_blog/widgets/password_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -19,6 +21,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -29,92 +32,47 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
-  void submit() {
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    // TODO(homusys): Integrate database behaviour on LoginController.
-    print('Email: $email');
-    print('Password: $password');
-
-    /** TODO(homusys): 
-     * Return a boolean value based on the result. Will be used for clearing the 
-     * form inputs. */
-
-    _emailController.clear();
-    _passwordController.clear();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final emailField = CustomTextField(
-      controller: _emailController,
-      labelText: 'Email',
-    );
-    final passwordField = CustomTextField(
-      controller: _passwordController,
-      labelText: 'Password',
-      obscureText: true,
-    );
+    final emailField = EmailField(controller: _emailController);
+    final passwordField = PasswordField(controller: _passwordController);
 
-    return Padding(
-      padding: EdgeInsetsGeometry.all(8.0),
-      child: Column(
-        children: [
-          Text('Login'),
-          emailField,
-          passwordField,
-          TextButton(
-            onPressed: () {
-              submit();
-            },
-            child: Text('Continue'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
-              );
-            },
-            child: Text("Don't have an account?"),
-          ),
-        ],
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: EdgeInsetsGeometry.all(8.0),
+        child: Column(
+          children: [
+            Text('Login'),
+            emailField,
+            passwordField,
+            TextButton(
+              onPressed: () =>
+                  UsersController.loginUser(
+                    _formKey,
+                    _emailController.text.trim(),
+                    _passwordController.text.trim(),
+                  ).then((success) {
+                    if (success) {
+                      _emailController.clear();
+                      _passwordController.clear();
+                      print('LOGIN SUCCESS');
+                    }
+                  }),
+              child: Text('Continue'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterPage()),
+                );
+              },
+              child: Text("Don't have an account?"),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-// class LoginField extends StatelessWidget {
-//   LoginField({
-//     super.key,
-//     this.labelText = 'Placeholder',
-//     this.onLogin,
-//     required this.controller,
-//     this.maxLength = 255,
-//   });
-
-//   final void Function(String)? onLogin;
-//   final String labelText;
-//   final int maxLength;
-
-//   final TextEditingController controller;
-//   final FocusNode _focusNode = FocusNode();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       autofocus: true,
-//       maxLength: maxLength,
-//       decoration: InputDecoration(
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(12)),
-//         ),
-//         labelText: labelText,
-//       ),
-//       controller: controller,
-//       focusNode: _focusNode,
-//       onSubmitted: null,
-//     );
-//   }
-// }

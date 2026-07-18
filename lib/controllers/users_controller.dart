@@ -55,4 +55,32 @@ class UsersController {
     }
     return (user != null && session != null);
   }
+
+  static Future<bool> loginUser(
+    GlobalKey<FormState> formKey,
+    String email,
+    String pass,
+  ) async {
+    final SupabaseClient supabase;
+    final AuthResponse res;
+    Session? session;
+    User? user;
+
+    try {
+      if (formKey.currentState!.validate()) {
+        supabase = Supabase.instance.client;
+        res = await supabase.auth.signInWithPassword(
+          email: email,
+          password: pass,
+        );
+        user = res.user;
+        session = res.session;
+      }
+    } on AuthException catch (error) {
+      print('Auth error: $error');
+    } catch (error) {
+      print('Unhandled exception: $error');
+    }
+    return (user != null && session != null);
+  }
 }

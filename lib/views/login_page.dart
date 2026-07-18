@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/views/register_page.dart';
 import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,37 +19,37 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
   void submit() {
-    final username = _usernameController.text.trim();
+    final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     // TODO(homusys): Integrate database behaviour on LoginController.
-    print('Username: $username');
+    print('Email: $email');
     print('Password: $password');
 
     /** TODO(homusys): 
      * Return a boolean value based on the result. Will be used for clearing the 
      * form inputs. */
 
-    _usernameController.clear();
+    _emailController.clear();
     _passwordController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    final usernameField = CustomTextField(
-      controller: _usernameController,
-      labelText: 'Username or Email',
+    final emailField = CustomTextField(
+      controller: _emailController,
+      labelText: 'Email',
     );
     final passwordField = CustomTextField(
       controller: _passwordController,
@@ -61,13 +62,22 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           Text('Login'),
-          usernameField,
+          emailField,
           passwordField,
           TextButton(
             onPressed: () {
               submit();
             },
             child: Text('Continue'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterPage()),
+              );
+            },
+            child: Text('Register'),
           ),
         ],
       ),

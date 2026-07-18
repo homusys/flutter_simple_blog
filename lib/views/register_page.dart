@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
+import 'package:flutter_simple_blog/widgets/email_field.dart';
+import 'package:flutter_simple_blog/widgets/password_field.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -32,23 +34,47 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  void registerUser() async {
+    final Session? session;
+    final User? user;
+
+    try {
+      if (!_formKey.currentState!.validate()) {
+        return; // all validations must pass.
+      }
+      final supabase = Supabase.instance.client;
+      final AuthResponse res = await supabase.auth.signUp(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      session = res.session;
+      user = res.user;
+      print('Session $session');
+      print('User $user');
+    } on AuthException catch (error) {
+      print('Auth error: $error');
+    } catch (error) {
+      print('Unhandled exception: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          CustomTextField(controller: _emailController, labelText: 'Email'),
-          CustomTextField(
-            controller: _passwordController,
-            labelText: 'Password',
-            obscureText: true,
-          ),
-          TextButton(onPressed: () {}, child: Text('Register')),
-        ],
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            EmailField(controller: _emailController),
+            PasswordField(controller: _passwordController),
+            TextButton(onPressed: registerUser, child: Text('Register')),
+          ],
+        ),
       ),
     );
   }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UsersController {
+class UsersController extends ChangeNotifier {
+  final _currentUser = Supabase.instance.client.auth.currentUser;
+
   /// Checks whether an input string is in a valid email address format.
   static String? validateEmail(String? email) {
     return email != null && !EmailValidator.validate(email)
@@ -82,5 +84,16 @@ class UsersController {
       print('Unhandled exception: $error');
     }
     return (user != null && session != null);
+  }
+
+  static void logoutUser() async {
+    final SupabaseClient supabase;
+
+    try {
+      supabase = Supabase.instance.client;
+      await supabase.auth.signOut();
+    } catch (error) {
+      print('Logout error: $error');
+    }
   }
 }

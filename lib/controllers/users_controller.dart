@@ -3,7 +3,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersController extends ChangeNotifier {
-  final _currentUser = Supabase.instance.client.auth.currentUser;
+  String getCurrentUserEmail() {
+    User? currentUser = Supabase.instance.client.auth.currentUser;
+    if (currentUser != null) {
+      return currentUser.email.toString();
+    }
+    return 'Profile';
+  }
 
   /// Checks whether an input string is in a valid email address format.
   static String? validateEmail(String? email) {

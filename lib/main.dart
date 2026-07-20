@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/controllers/users_controller.dart';
 import 'package:flutter_simple_blog/utils/styles.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,9 +15,12 @@ Future<void> main() async {
     publishableKey: 'sb_publishable_fh9vaOsuX8sRyBihL0J9kA_DeRhlYWj',
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => UsersController(),
-      child: MainApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UsersController()),
+        ChangeNotifierProvider(create: (context) => PostsViewmodel()),
+      ],
+      child: const MainApp(),
     ),
   );
 }

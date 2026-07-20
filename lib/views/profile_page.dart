@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
-import 'package:flutter_simple_blog/views/login_page.dart';
-import 'package:flutter_simple_blog/views/register_page.dart';
+import 'package:flutter_simple_blog/views/auth/auth_page.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -27,6 +26,15 @@ class GuestProfileBody extends StatelessWidget {
 
   final UsersViewmodel vm;
 
+  void gotoAuthPage(BuildContext context, AuthFormType authFormType) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AuthPage(authFormType: authFormType),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -41,28 +49,36 @@ class GuestProfileBody extends StatelessWidget {
 
           /// LOGIN
           TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
-            },
+            onPressed: () => gotoAuthPage(context, AuthFormType.login),
             child: Text('Login'),
           ),
 
           /// SIGNUP
           TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
-              );
-            },
+            onPressed: () => gotoAuthPage(context, AuthFormType.signup),
             child: Text('Signup'),
           ),
         ],
       ),
     );
+  }
+}
+
+class AuthScaffold extends StatelessWidget {
+  const AuthScaffold({super.key, required String forom});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class AuthenticationForm extends StatelessWidget {
+  const AuthenticationForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 

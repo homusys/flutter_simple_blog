@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
-import 'package:flutter_simple_blog/views/register_page.dart';
 import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
 import 'package:provider/provider.dart';
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LoginForm();
-  }
-}
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -63,15 +53,6 @@ class _LoginFormState extends State<LoginForm> {
                       }
                     }),
                 child: Text('Continue'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
-                  );
-                },
-                child: Text("Don't have an account?"),
               ),
             ],
           ),

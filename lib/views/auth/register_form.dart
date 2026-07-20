@@ -4,29 +4,6 @@ import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
 import 'package:provider/provider.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({super.key});
-
-  void backToLoginPage(BuildContext context) {
-    Navigator.pop(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => backToLoginPage(context),
-          icon: Icon(Icons.arrow_back_rounded),
-        ),
-        title: Text('Create an account'),
-        centerTitle: true,
-      ),
-      body: RegisterForm(),
-    );
-  }
-}
-
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
 

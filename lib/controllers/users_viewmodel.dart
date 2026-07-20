@@ -3,7 +3,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UsersController extends ChangeNotifier {
+class UsersViewmodel extends ChangeNotifier {
   final AuthService authService = AuthService();
 
   String getCurrentUserEmail() {

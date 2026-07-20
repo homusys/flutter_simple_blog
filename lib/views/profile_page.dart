@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -7,7 +7,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersController>(
+    return Consumer<UsersViewmodel>(
       builder: (context, value, child) => ListView(
         children: [
           Row(children: [ProfilePhoto(), Text('0 Posts')]),

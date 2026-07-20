@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersController>(
+    return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Form(
         key: _formKey,
         child: Padding(

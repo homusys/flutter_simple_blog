@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 
 /// The PasswordField handles password inputs.
 class PasswordField extends StatefulWidget {
@@ -23,7 +23,7 @@ class _PasswordFieldState extends State<PasswordField> {
         prefixIcon: Icon(Icons.lock_rounded),
       ),
       obscureText: true,
-      validator: (pass) => UsersController.validatePassword(pass),
+      validator: (pass) => UsersViewmodel.validatePassword(pass),
     );
   }
 }

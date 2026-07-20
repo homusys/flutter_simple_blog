@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 import 'package:flutter_simple_blog/views/register_page.dart';
 import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
     final emailField = EmailField(controller: _emailController);
     final passwordField = PasswordField(controller: _passwordController);
 
-    return Consumer<UsersController>(
+    return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Form(
         key: _formKey,
         child: Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 import 'package:flutter_simple_blog/utils/styles.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UsersController()),
+        ChangeNotifierProvider(create: (context) => UsersViewmodel()),
         ChangeNotifierProvider(create: (context) => PostsViewmodel()),
       ],
       child: const MainApp(),
@@ -69,7 +69,7 @@ class AppNavigatorState extends State<AppNavigator> {
     });
   }
 
-  Widget? updatePage(UsersController controller) {
+  Widget? updatePage(UsersViewmodel controller) {
     switch (currentPageIndex) {
       case 1:
         return pageMap["post"];
@@ -85,7 +85,7 @@ class AppNavigatorState extends State<AppNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersController>(
+    return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
           title: Text(appBarPageLabels[currentPageIndex]),

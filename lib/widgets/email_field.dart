@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_controller.dart';
+import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 
 /// The EmailField handles client-side text input email validation.
 class EmailField extends StatefulWidget {
@@ -25,7 +25,7 @@ class _EmailFieldState extends State<EmailField> {
       keyboardType: TextInputType.emailAddress,
 
       /// Using the email validator package.
-      validator: (email) => UsersController.validateEmail(email),
+      validator: (email) => UsersViewmodel.validateEmail(email),
     );
   }
 }

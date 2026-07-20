@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PostsViewmodel extends ChangeNotifier {
+  final AuthService authService = AuthService();
   final postsTable = 'posts';
 
-  SupabaseClient get supaClient => Supabase.instance.client;
-  User? get user => supaClient.auth.currentUser;
-  bool get isLoggedin => user != null;
-
   void createPost(String title, String body) async {
-    if (isLoggedin) {
+    if (authService.isLoggedIn) {
       try {
-        var test = await supaClient.from(postsTable).insert({
+        var test = await authService.supaClient.from(postsTable).insert({
           'title': title,
           'body': body,
-          'user_uuid': user!.id,
+          'user_uuid': authService.currentUser!.id,
         }).select();
         print(test.toString());
         notifyListeners();
@@ -27,12 +25,12 @@ class PostsViewmodel extends ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> getPost(int postId) {
-    return supaClient.from(postsTable).select().eq('id', postId);
+    return authService.supaClient.from(postsTable).select().eq('id', postId);
   }
 
   void updatePost(int postId, String title, String body) async {
-    if (isLoggedin) {
-      var test = await supaClient
+    if (authService.isLoggedIn) {
+      var test = await authService.supaClient
           .from(postsTable)
           .update({'title': title, 'body': body})
           .eq('id', postId)

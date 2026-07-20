@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersController extends ChangeNotifier {
-  SupabaseClient get supaClient => Supabase.instance.client;
-  User? get currentUser => supaClient.auth.currentUser;
+  final AuthService authService = AuthService();
 
   String getCurrentUserEmail() {
-    if (currentUser != null) {
-      return currentUser!.email.toString();
+    if (authService.isLoggedIn) {
+      return authService.currentUser!.email.toString();
     }
     return 'Profile';
   }
@@ -49,8 +49,10 @@ class UsersController extends ChangeNotifier {
 
     try {
       if (formKey.currentState!.validate()) {
-        ///TODO(homus): hash the passwords.;
-        res = await supaClient.auth.signUp(email: email, password: pass);
+        res = await authService.supaClient.auth.signUp(
+          email: email,
+          password: pass,
+        );
 
         user = res.user;
         session = res.session;
@@ -74,7 +76,7 @@ class UsersController extends ChangeNotifier {
 
     try {
       if (formKey.currentState!.validate()) {
-        res = await supaClient.auth.signInWithPassword(
+        res = await authService.supaClient.auth.signInWithPassword(
           email: email,
           password: pass,
         );
@@ -86,7 +88,7 @@ class UsersController extends ChangeNotifier {
       print('Unhandled exception: $error');
     }
     notifyListeners();
-    return (currentUser != null && session != null);
+    return (authService.currentUser != null && session != null);
   }
 
   void logoutUser() async {

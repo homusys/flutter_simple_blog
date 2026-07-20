@@ -74,7 +74,7 @@ class AppNavigatorState extends State<AppNavigator> {
       case 1:
         return pageMap["post"];
       case 2:
-        if (controller.currentUser != null) {
+        if (controller.authService.currentUser != null) {
           return pageMap["profile"];
         }
         return pageMap["login"];

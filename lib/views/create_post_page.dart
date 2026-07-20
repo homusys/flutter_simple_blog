@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
+import 'package:provider/provider.dart';
 
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage({super.key});
@@ -10,15 +12,11 @@ class CreatePostPage extends StatelessWidget {
   }
 }
 
-class CreatePostForm extends StatefulWidget {
-  const CreatePostForm({super.key});
+class CreatePostForm extends StatelessWidget {
+  CreatePostForm({super.key});
 
-  @override
-  State<CreatePostForm> createState() => _CreatePostFormState();
-}
-
-class _CreatePostFormState extends State<CreatePostForm> {
   final TextEditingController _titleController = TextEditingController();
+
   final TextEditingController _bodyController = TextEditingController();
 
   @override
@@ -31,8 +29,7 @@ class _CreatePostFormState extends State<CreatePostForm> {
             controller: _titleController,
             labelText: "Post title",
           ),
-          /**TODO(homusys):
-           * Figure out how to implement uploading of files. */
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(height: 20, child: Placeholder()),
@@ -43,7 +40,14 @@ class _CreatePostFormState extends State<CreatePostForm> {
             maxLength: 0xFFFF,
             maxLines: null,
           ),
-          TextButton(onPressed: () {}, child: Text('Post')),
+          Consumer<PostsViewmodel>(
+            builder: (context, value, child) => TextButton(
+              onPressed: () {
+                value.createPost(_titleController.text, _bodyController.text);
+              },
+              child: Text('Post'),
+            ),
+          ),
         ],
       ),
     );

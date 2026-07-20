@@ -43,27 +43,41 @@ class AppNavigator extends StatefulWidget {
 }
 
 class AppNavigatorState extends State<AppNavigator> {
-  int currentPageIndex = 0;
+  final pageMap = {
+    "home": HomePage(),
+    "post": CreatePostPage(),
+    "login": LoginPage(),
+    "profile": ProfilePage(),
+  };
 
-  void updatePageIndex(int index) {
-    User? user = Supabase.instance.client.auth.currentUser;
-    setState(() {
-      currentPageIndex = index;
-
-      if (user == null) {
-        pages[2] = LoginPage();
-      } else {
-        pages[2] = ProfilePage();
-      }
-    });
-  }
-
-  final pages = <Widget>[HomePage(), CreatePostPage(), ProfilePage()];
+  /// Used to change the scaffold title.
   final appBarPageLabels = <String>[
     "Simple Blog App",
     "Create new post",
     "Profile",
   ];
+
+  int currentPageIndex = 0;
+
+  void updatePageIndex(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
+
+  Widget? updatePage(UsersController controller) {
+    switch (currentPageIndex) {
+      case 1:
+        return pageMap["post"];
+      case 2:
+        if (controller.currentUser != null) {
+          return pageMap["profile"];
+        }
+        return pageMap["login"];
+      default:
+        return pageMap["home"];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +88,7 @@ class AppNavigatorState extends State<AppNavigator> {
           backgroundColor: AppColors.primary.color,
           centerTitle: true,
         ),
-        body: pages[currentPageIndex],
+        body: updatePage(value),
         bottomNavigationBar: NavigationBar(
           selectedIndex: currentPageIndex,
           onDestinationSelected: updatePageIndex,

@@ -3,10 +3,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersController extends ChangeNotifier {
+  User? get currentUser => Supabase.instance.client.auth.currentUser;
+
   String getCurrentUserEmail() {
-    User? currentUser = Supabase.instance.client.auth.currentUser;
     if (currentUser != null) {
-      return currentUser.email.toString();
+      return currentUser!.email.toString();
     }
     return 'Profile';
   }
@@ -64,7 +65,7 @@ class UsersController extends ChangeNotifier {
     return (user != null && session != null);
   }
 
-  static Future<bool> loginUser(
+  Future<bool> loginUser(
     GlobalKey<FormState> formKey,
     String email,
     String pass,
@@ -72,7 +73,6 @@ class UsersController extends ChangeNotifier {
     final SupabaseClient supabase;
     final AuthResponse res;
     Session? session;
-    User? user;
 
     try {
       if (formKey.currentState!.validate()) {
@@ -81,7 +81,6 @@ class UsersController extends ChangeNotifier {
           email: email,
           password: pass,
         );
-        user = res.user;
         session = res.session;
       }
     } on AuthException catch (error) {
@@ -89,10 +88,11 @@ class UsersController extends ChangeNotifier {
     } catch (error) {
       print('Unhandled exception: $error');
     }
-    return (user != null && session != null);
+    notifyListeners();
+    return (currentUser != null && session != null);
   }
 
-  static void logoutUser() async {
+  void logoutUser() async {
     final SupabaseClient supabase;
 
     try {
@@ -100,6 +100,8 @@ class UsersController extends ChangeNotifier {
       await supabase.auth.signOut();
     } catch (error) {
       print('Logout error: $error');
+    } finally {
+      notifyListeners();
     }
   }
 }

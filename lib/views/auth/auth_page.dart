@@ -17,6 +17,15 @@ class AuthPage extends StatelessWidget {
     }
   }
 
+  String getFormLabel() {
+    switch (authFormType) {
+      case AuthFormType.login:
+        return 'Login';
+      case AuthFormType.signup:
+        return 'Register';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +35,19 @@ class AuthPage extends StatelessWidget {
           icon: Icon(Icons.arrow_back_rounded),
         ),
       ),
-      body: displayForm(),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 150,
+              width: 150,
+              child: CircleAvatar(child: Text('LOGO')),
+            ),
+            Text(getFormLabel()),
+            displayForm(),
+          ],
+        ),
+      ),
     );
   }
 }

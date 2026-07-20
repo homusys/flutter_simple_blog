@@ -31,31 +31,27 @@ class _LoginFormState extends State<LoginForm> {
     return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Form(
         key: _formKey,
-        child: Padding(
-          padding: EdgeInsetsGeometry.all(8.0),
-          child: Column(
-            children: [
-              Text('Login'),
-              emailField,
-              passwordField,
-              TextButton(
-                onPressed: () => value
-                    .loginUser(
-                      _formKey,
-                      _emailController.text.trim(),
-                      _passwordController.text.trim(),
-                    )
-                    .then((success) {
-                      if (success) {
-                        _emailController.clear();
-                        _passwordController.clear();
-                        print('LOGIN SUCCESS');
-                      }
-                    }),
-                child: Text('Continue'),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            emailField,
+            passwordField,
+            TextButton(
+              onPressed: () => value
+                  .loginUser(
+                    _formKey,
+                    _emailController.text.trim(),
+                    _passwordController.text.trim(),
+                  )
+                  .then((success) {
+                    if (success) {
+                      _emailController.clear();
+                      _passwordController.clear();
+                      print('LOGIN SUCCESS');
+                    }
+                  }),
+              child: Text('Continue'),
+            ),
+          ],
         ),
       ),
     );

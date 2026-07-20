@@ -21,26 +21,23 @@ class _RegisterFormState extends State<RegisterForm> {
     return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              EmailField(controller: _emailController),
-              PasswordField(controller: _passwordController),
-              TextButton(
-                onPressed: () => {
-                  value
-                      .registerUser(
-                        _formKey,
-                        _emailController.text.trim(),
-                        _passwordController.text.trim(),
-                      )
-                      .then((success) => print('Success $success')),
-                },
-                child: Text('Sign Up'),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            EmailField(controller: _emailController),
+            PasswordField(controller: _passwordController),
+            TextButton(
+              onPressed: () => {
+                value
+                    .registerUser(
+                      _formKey,
+                      _emailController.text.trim(),
+                      _passwordController.text.trim(),
+                    )
+                    .then((success) => print('Success $success')),
+              },
+              child: Text('Sign Up'),
+            ),
+          ],
         ),
       ),
     );

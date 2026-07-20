@@ -64,14 +64,11 @@ class UsersController extends ChangeNotifier {
     return (user != null && session != null);
   }
 
-  static hash() {}
-
   Future<bool> loginUser(
     GlobalKey<FormState> formKey,
     String email,
     String pass,
   ) async {
-    final SupabaseClient supabase;
     final AuthResponse res;
     Session? session;
 

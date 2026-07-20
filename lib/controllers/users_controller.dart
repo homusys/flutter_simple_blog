@@ -3,7 +3,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersController extends ChangeNotifier {
-  User? get currentUser => Supabase.instance.client.auth.currentUser;
+  SupabaseClient get supaClient => Supabase.instance.client;
+  User? get currentUser => supaClient.auth.currentUser;
 
   String getCurrentUserEmail() {
     if (currentUser != null) {
@@ -37,21 +38,19 @@ class UsersController extends ChangeNotifier {
     return null;
   }
 
-  static Future<bool> registerUser(
+  Future<bool> registerUser(
     GlobalKey<FormState> formKey,
     String email,
     String pass,
   ) async {
-    final SupabaseClient supabase;
     final AuthResponse res;
     Session? session;
     User? user;
 
     try {
       if (formKey.currentState!.validate()) {
-        ///TODO(homus): hash the passwords.
-        supabase = Supabase.instance.client;
-        res = await supabase.auth.signUp(email: email, password: pass);
+        ///TODO(homus): hash the passwords.;
+        res = await supaClient.auth.signUp(email: email, password: pass);
 
         user = res.user;
         session = res.session;
@@ -65,6 +64,8 @@ class UsersController extends ChangeNotifier {
     return (user != null && session != null);
   }
 
+  static hash() {}
+
   Future<bool> loginUser(
     GlobalKey<FormState> formKey,
     String email,
@@ -76,8 +77,7 @@ class UsersController extends ChangeNotifier {
 
     try {
       if (formKey.currentState!.validate()) {
-        supabase = Supabase.instance.client;
-        res = await supabase.auth.signInWithPassword(
+        res = await supaClient.auth.signInWithPassword(
           email: email,
           password: pass,
         );

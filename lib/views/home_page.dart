@@ -37,12 +37,13 @@ class _PostsViewState extends State<PostsView> {
         }
 
         return ListView.builder(
+          itemCount: posts.length,
           itemBuilder: (context, index) {
+            print(index);
             final postItem = posts[index];
-            return PostItem(
-              email: postItem['user_id'],
-              title: postItem['title'],
-            );
+
+            /// TODO(homus): Change email to actual email
+            return PostItem(email: postItem['title'], title: postItem['title']);
           },
         );
       },
@@ -56,9 +57,9 @@ class _PostsViewState extends State<PostsView> {
 /// poster, then the post can be edited by that user. Otherwise, the current
 /// user is only able to read and react the post.
 class PostItem extends StatefulWidget {
-  const PostItem({super.key, this.email = 0, this.title = 'testtitle'});
+  const PostItem({super.key, this.email = '', this.title = 'testtitle'});
 
-  final int email;
+  final String email;
   final String title;
 
   @override
@@ -68,13 +69,13 @@ class PostItem extends StatefulWidget {
 class _PostItemState extends State<PostItem> {
   String _imageSrc = 'Sample Image';
 
-  Widget createPostHeader(int email) {
+  Widget createPostHeader(String email) {
     return Row(
       children: [
         Container(
           decoration: BoxDecoration(color: Color.fromARGB(255, 25, 25, 212)),
         ),
-        Container(child: Text('$email')),
+        Container(child: Text(email)),
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/views/post_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,11 +40,14 @@ class _PostsViewState extends State<PostsView> {
         return ListView.builder(
           itemCount: posts.length,
           itemBuilder: (context, index) {
-            print(index);
             final postItem = posts[index];
 
             /// TODO(homus): Change email to actual email
-            return PostItem(email: postItem['title'], title: postItem['title']);
+            return PostItem(
+              postId: postItem['id'],
+              email: postItem['title'],
+              title: postItem['title'],
+            );
           },
         );
       },
@@ -57,8 +61,14 @@ class _PostsViewState extends State<PostsView> {
 /// poster, then the post can be edited by that user. Otherwise, the current
 /// user is only able to read and react the post.
 class PostItem extends StatefulWidget {
-  const PostItem({super.key, this.email = '', this.title = 'testtitle'});
+  const PostItem({
+    super.key,
+    required this.postId,
+    this.email = '',
+    this.title = 'testtitle',
+  });
 
+  final int postId;
   final String email;
   final String title;
 
@@ -113,7 +123,12 @@ class _PostItemState extends State<PostItem> {
       padding: const EdgeInsets.fromLTRB(4, 1, 4, 0),
       child: InkWell(
         onTap: () {
-          print("Clicked");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostPage(postId: widget.postId),
+            ),
+          );
         },
         child: Ink(
           color: Color.fromARGB(255, 225, 199, 199),

@@ -26,6 +26,10 @@ class PostsViewmodel extends ChangeNotifier {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getPost(int postId) {
+    return supaClient.from(postsTable).select().eq('id', postId);
+  }
+
   void updatePost(int postId, String title, String body) async {
     if (isLoggedin) {
       var test = await supaClient

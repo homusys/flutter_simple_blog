@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PostsViewmodel extends ChangeNotifier {
   final AuthService authService = AuthService();

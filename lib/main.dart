@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'views/profile_page.dart';
 import 'views/home_page.dart';
 import 'views/create_post_page.dart';
-import 'views/login_page.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -50,7 +49,6 @@ class AppNavigatorState extends State<AppNavigator> {
   final pageMap = {
     "home": HomePage(),
     "post": CreatePostPage(),
-    "login": LoginPage(),
     "profile": ProfilePage(),
   };
 
@@ -77,7 +75,7 @@ class AppNavigatorState extends State<AppNavigator> {
         if (controller.authService.currentUser != null) {
           return pageMap["profile"];
         }
-        return pageMap["login"];
+        return pageMap["profile"];
       default:
         return pageMap["home"];
     }

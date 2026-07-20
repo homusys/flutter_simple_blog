@@ -33,7 +33,13 @@ class _RegisterFormState extends State<RegisterForm> {
                       _emailController.text.trim(),
                       _passwordController.text.trim(),
                     )
-                    .then((success) => print('Success $success')),
+                    .then((success) {
+                      if (success) {
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    }),
               },
               child: Text('Sign Up'),
             ),

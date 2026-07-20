@@ -46,7 +46,9 @@ class _LoginFormState extends State<LoginForm> {
                     if (success) {
                       _emailController.clear();
                       _passwordController.clear();
-                      print('LOGIN SUCCESS');
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     }
                   }),
               child: Text('Continue'),

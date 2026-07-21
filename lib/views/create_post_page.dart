@@ -6,9 +6,35 @@ import 'package:provider/provider.dart';
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage({super.key});
 
+  Widget displayForm(PostsViewmodel vm) {
+    if (vm.authService.isLoggedIn) {
+      return CreatePostForm();
+    }
+    return LoginReminder();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CreatePostForm();
+    return Consumer<PostsViewmodel>(
+      builder: (context, value, child) => displayForm(value),
+    );
+  }
+}
+
+class LoginReminder extends StatelessWidget {
+  const LoginReminder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("You must be logged in before posting."),
+          Text("(Click the profile button below.)"),
+        ],
+      ),
+    );
   }
 }
 

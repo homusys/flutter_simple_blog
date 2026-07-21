@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
 import 'package:flutter_simple_blog/utils/styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'views/profile_page.dart';
@@ -27,13 +28,31 @@ Future<void> main() async {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
+  final String appTitle = 'Simple Blog App';
+
   @override
   Widget build(BuildContext context) {
-    /**TODO(homusyus): Add a theme for the app */
     return MaterialApp(
-      title: 'Simple Blog App',
-      home: AppNavigator(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color(colorPrimary),
+          brightness: Brightness.dark,
+        ),
+        textTheme: TextTheme(
+          titleLarge: GoogleFonts.bungee(),
+          titleMedium: GoogleFonts.bungee(),
+          titleSmall: GoogleFonts.bungee(),
+          bodyLarge: GoogleFonts.quicksand(),
+          bodyMedium: GoogleFonts.quicksand(),
+          bodySmall: GoogleFonts.quicksand(),
+          labelLarge: GoogleFonts.quicksand(fontWeight: FontWeight(700)),
+          labelMedium: GoogleFonts.quicksand(fontWeight: FontWeight(700)),
+          labelSmall: GoogleFonts.quicksand(),
+        ),
+      ),
+      title: appTitle,
+      home: AppNavigator(),
     );
   }
 }
@@ -87,7 +106,6 @@ class AppNavigatorState extends State<AppNavigator> {
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
           title: Text(appBarPageLabels[currentPageIndex]),
-          backgroundColor: AppColors.primary.color,
           centerTitle: true,
         ),
         body: updatePage(value),

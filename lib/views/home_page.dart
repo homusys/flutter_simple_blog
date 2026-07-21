@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/utils/styles.dart';
 import 'package:flutter_simple_blog/views/post_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -120,7 +121,7 @@ class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4, 1, 4, 0),
+      padding: const EdgeInsets.fromLTRB(12, 1, 12, 0),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -131,7 +132,6 @@ class _PostItemState extends State<PostItem> {
           );
         },
         child: Ink(
-          color: Color.fromARGB(255, 225, 199, 199),
           padding: EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

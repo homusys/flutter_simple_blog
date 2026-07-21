@@ -62,6 +62,8 @@ class UsersViewmodel extends ChangeNotifier {
       print('Auth error: $error');
     } catch (error) {
       print('Unhandled exception: $error');
+    } finally {
+      notifyListeners();
     }
     return (user != null && session != null);
   }

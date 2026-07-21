@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/views/post_page.dart';
 import 'package:provider/provider.dart';
@@ -14,14 +15,9 @@ class HomePage extends StatelessWidget {
 
 /// The PostsView is a class that will contain all of the posts from the
 /// database.
-class PostsView extends StatefulWidget {
+class PostsView extends StatelessWidget {
   const PostsView({super.key});
 
-  @override
-  State<PostsView> createState() => _PostsViewState();
-}
-
-class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PostsViewmodel>(
@@ -42,12 +38,14 @@ class _PostsViewState extends State<PostsView> {
             itemBuilder: (context, index) {
               final postItem = posts[index];
 
-              /// TODO(homus): Change email to actual email
-              return PostItem(
+              PostModel postModel = PostModel(
                 postId: postItem['id'],
-                email: postItem['title'],
+                createdAt: postItem['created_at'],
+                createdBy: postItem['profiles']['email'],
                 title: postItem['title'],
               );
+
+              return PostItem(postModel: postModel);
             },
           );
         },
@@ -61,24 +59,11 @@ class _PostsViewState extends State<PostsView> {
 /// and a comment button. If the user currently logged in is the original
 /// poster, then the post can be edited by that user. Otherwise, the current
 /// user is only able to read and react the post.
-class PostItem extends StatefulWidget {
-  const PostItem({
-    super.key,
-    required this.postId,
-    this.email = '',
-    this.title = 'testtitle',
-  });
+class PostItem extends StatelessWidget {
+  const PostItem({super.key, required this.postModel});
 
-  final int postId;
-  final String email;
-  final String title;
-
-  @override
-  State<PostItem> createState() => _PostItemState();
-}
-
-class _PostItemState extends State<PostItem> {
-  String _imageSrc = 'Sample Image';
+  final PostModel postModel;
+  final String _imageSrc = 'Sample Image';
 
   Widget createPostHeader(String email) {
     return Row(
@@ -86,7 +71,7 @@ class _PostItemState extends State<PostItem> {
         Container(
           decoration: BoxDecoration(color: Color.fromARGB(255, 25, 25, 212)),
         ),
-        Container(child: Text(email)),
+        Text(email),
       ],
     );
   }
@@ -127,7 +112,7 @@ class _PostItemState extends State<PostItem> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PostPage(postId: widget.postId),
+              builder: (context) => PostPage(postId: postModel.postId),
             ),
           );
         },
@@ -136,8 +121,8 @@ class _PostItemState extends State<PostItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              createPostHeader(widget.email),
-              createPostBody(widget.title, _imageSrc),
+              createPostHeader(postModel.createdBy),
+              createPostBody(postModel.title, _imageSrc),
               createPostActionsContainer(),
             ],
           ),
@@ -146,7 +131,3 @@ class _PostItemState extends State<PostItem> {
     );
   }
 }
-
-/// TODO(homusys):
-/// The post is something clickable and pushes another view on the stack so
-/// that the user is able to view the content and all the comments.

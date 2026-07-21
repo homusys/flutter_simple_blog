@@ -11,7 +11,7 @@ class PostsViewmodel extends ChangeNotifier {
         var test = await authService.supaClient.from(postsTable).insert({
           'title': title,
           'body': body,
-          'user_uuid': authService.currentUser!.id,
+          'profile_id': authService.currentUser!.id,
         }).select();
         print(test.toString());
         notifyListeners();
@@ -28,7 +28,18 @@ class PostsViewmodel extends ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> getAllPosts() {
-    return authService.supaClient.from(postsTable).select();
+    return authService.supaClient.from(postsTable).select('''
+      *,
+      post_images (
+        id,
+        image_url
+      ),
+      profiles (
+        id, 
+        email,
+        avatar_url
+      )
+    ''');
   }
 
   void updatePost(int postId, String title, String body) async {

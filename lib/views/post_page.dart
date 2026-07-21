@@ -42,13 +42,19 @@ class PostPage extends StatelessWidget {
   }
 }
 
-class CommentForm extends StatelessWidget {
+class CommentForm extends StatefulWidget {
   const CommentForm({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
+  State<CommentForm> createState() => _CommentFormState();
+}
+
+class _CommentFormState extends State<CommentForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  Widget showForm(PostsViewmodel vm) {
+    if (vm.authService.isLoggedIn) {
+      return Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +76,16 @@ class CommentForm extends StatelessWidget {
             ],
           ),
         ],
-      ),
+      );
+    }
+    return Text('You must be logged in to comment.');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PostsViewmodel>(
+      builder: (context, value, child) =>
+          Form(key: _formKey, child: showForm(value)),
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
-import 'package:flutter_simple_blog/utils/styles.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_simple_blog/theme/main_app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'views/profile_page.dart';
@@ -20,37 +19,22 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => UsersViewmodel()),
         ChangeNotifierProvider(create: (context) => PostsViewmodel()),
       ],
-      child: const MainApp(),
+      child: MainApp(),
     ),
   );
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
 
+  final MainAppTheme mainAppTheme = MainAppTheme();
   final String appTitle = 'Simple Blog App';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(colorPrimary),
-          brightness: Brightness.dark,
-        ),
-        textTheme: TextTheme(
-          titleLarge: GoogleFonts.bungee(),
-          titleMedium: GoogleFonts.bungee(),
-          titleSmall: GoogleFonts.bungee(),
-          bodyLarge: GoogleFonts.quicksand(),
-          bodyMedium: GoogleFonts.quicksand(),
-          bodySmall: GoogleFonts.quicksand(),
-          labelLarge: GoogleFonts.quicksand(fontWeight: FontWeight(700)),
-          labelMedium: GoogleFonts.quicksand(fontWeight: FontWeight(700)),
-          labelSmall: GoogleFonts.quicksand(),
-        ),
-      ),
+      theme: mainAppTheme.getMainTheme(),
       title: appTitle,
       home: AppNavigator(),
     );

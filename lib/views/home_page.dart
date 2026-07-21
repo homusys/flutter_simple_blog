@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/utils/styles.dart';
 import 'package:flutter_simple_blog/views/post_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

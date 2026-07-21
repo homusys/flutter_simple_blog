@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/views/post_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,36 +22,36 @@ class PostsView extends StatefulWidget {
 }
 
 class _PostsViewState extends State<PostsView> {
-  final _future = Supabase.instance.client.from('posts').select();
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _future,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final posts = snapshot.data!;
+    return Consumer<PostsViewmodel>(
+      builder: (context, value, child) => FutureBuilder(
+        future: value.getAllPosts(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final posts = snapshot.data!;
 
-        if (posts.isEmpty) {
-          return Text('There are no posts.');
-        }
+          if (posts.isEmpty) {
+            return Text('There are no posts.');
+          }
 
-        return ListView.builder(
-          itemCount: posts.length,
-          itemBuilder: (context, index) {
-            final postItem = posts[index];
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final postItem = posts[index];
 
-            /// TODO(homus): Change email to actual email
-            return PostItem(
-              postId: postItem['id'],
-              email: postItem['title'],
-              title: postItem['title'],
-            );
-          },
-        );
-      },
+              /// TODO(homus): Change email to actual email
+              return PostItem(
+                postId: postItem['id'],
+                email: postItem['title'],
+                title: postItem['title'],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

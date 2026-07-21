@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/viewmodels/comments_viewmodel.dart';
 import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/viewmodels/users_viewmodel.dart';
 import 'package:flutter_simple_blog/theme/main_app_theme.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => UsersViewmodel()),
         ChangeNotifierProvider(create: (context) => PostsViewmodel()),
+        ChangeNotifierProvider(create: (context) => CommentsViewmodel()),
       ],
       child: MainApp(),
     ),

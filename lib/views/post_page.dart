@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/viewmodels/comments_viewmodel.dart';
 import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class PostPage extends StatelessWidget {
                   /// POST BODY
                   Text(post[0]['body']),
                   Divider(height: 120, thickness: 80),
-                  CommentForm(),
+                  CommentForm(postId: postId),
                   Divider(height: 80, thickness: 1),
                   CommentSection(),
                 ],
@@ -43,7 +44,9 @@ class PostPage extends StatelessWidget {
 }
 
 class CommentForm extends StatefulWidget {
-  const CommentForm({super.key});
+  final int postId;
+
+  const CommentForm({super.key, required this.postId});
 
   @override
   State<CommentForm> createState() => _CommentFormState();
@@ -51,8 +54,9 @@ class CommentForm extends StatefulWidget {
 
 class _CommentFormState extends State<CommentForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _bodyController = TextEditingController();
 
-  Widget showForm(PostsViewmodel vm) {
+  Widget showForm(CommentsViewmodel vm) {
     if (vm.authService.isLoggedIn) {
       return Column(
         children: [
@@ -63,8 +67,10 @@ class _CommentFormState extends State<CommentForm> {
               SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
+                  controller: _bodyController,
                   decoration: InputDecoration(hintText: 'Write a comment..'),
                   maxLines: 3,
+                  validator: (body) => vm.validateCommentBody(body),
                 ),
               ),
             ],
@@ -72,7 +78,14 @@ class _CommentFormState extends State<CommentForm> {
           Row(
             children: [
               Spacer(),
-              TextButton(onPressed: () {}, child: Text('Submit')),
+              TextButton(
+                onPressed: () => vm.createComment(
+                  _formKey,
+                  widget.postId,
+                  _bodyController.text.trim(),
+                ),
+                child: Text('Submit'),
+              ),
             ],
           ),
         ],
@@ -83,7 +96,7 @@ class _CommentFormState extends State<CommentForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PostsViewmodel>(
+    return Consumer<CommentsViewmodel>(
       builder: (context, value, child) =>
           Form(key: _formKey, child: showForm(value)),
     );

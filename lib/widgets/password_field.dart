@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/users_viewmodel.dart';
 
 /// The PasswordField handles password inputs.
 class PasswordField extends StatefulWidget {

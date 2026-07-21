@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/posts_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/controllers/users_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/users_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/email_field.dart';
 import 'package:flutter_simple_blog/widgets/password_field.dart';
 import 'package:provider/provider.dart';

@@ -117,7 +117,7 @@ class AppNavigatorState extends State<AppNavigator> {
             NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),
             NavigationDestination(
               icon: Icon(Icons.account_circle),
-              label: value.getCurrentUserEmail(),
+              label: 'Profile',
             ),
           ],
         ),

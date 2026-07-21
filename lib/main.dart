@@ -86,12 +86,12 @@ class AppNavigatorState extends State<AppNavigator> {
     });
   }
 
-  Widget? updatePage(UsersViewmodel controller) {
+  Widget? updatePage(UsersViewmodel vm) {
     switch (currentPageIndex) {
       case 1:
         return pageMap["post"];
       case 2:
-        if (controller.authService.currentUser != null) {
+        if (vm.authService.isLoggedIn) {
           return pageMap["profile"];
         }
         return pageMap["profile"];
@@ -100,11 +100,29 @@ class AppNavigatorState extends State<AppNavigator> {
     }
   }
 
+  Widget? showUserAvatar(UsersViewmodel vm) {
+    if (currentPageIndex == 2) {
+      return null;
+    }
+    if (vm.authService.isLoggedIn) {
+      /// TODO: Replace with user's profile image if there is any
+      return CircleAvatar();
+    }
+    return CircleAvatar(
+      foregroundImage: AssetImage('assets/images/portrait.png'),
+      backgroundImage: AssetImage('assets/images/portrait.png'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UsersViewmodel>(
       builder: (context, value, child) => Scaffold(
         appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: showUserAvatar(value),
+          ),
           title: Text(appBarPageLabels[currentPageIndex]),
           centerTitle: true,
         ),

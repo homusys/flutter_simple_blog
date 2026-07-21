@@ -41,10 +41,7 @@ class GuestProfileBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
-            foregroundImage: AssetImage('assets/images/portrait.png'),
-            backgroundImage: AssetImage('assets/images/portrait.png'),
-          ),
+          ProfilePhoto(),
           Text('Guest'),
 
           /// LOGIN

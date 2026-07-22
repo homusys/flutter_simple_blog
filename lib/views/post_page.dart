@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/models/comment_model.dart';
 import 'package:flutter_simple_blog/viewmodels/comments_viewmodel.dart';
 import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -125,7 +126,18 @@ class CommentSection extends StatelessWidget {
           }
 
           return Column(
-            children: [for (int i = 0; i < comments.length; ++i) CommentItem()],
+            children: [
+              for (int i = 0; i < comments.length; ++i)
+                CommentItem(
+                  commentModel: CommentModel(
+                    id: comments[i]['id'],
+                    createdAt: comments[i]['created_at'],
+                    createdBy: comments[i]['profiles']['email'],
+                    body: comments[i]['body'],
+                    postId: comments[i]['post_id'],
+                  ),
+                ),
+            ],
           );
         },
       ),
@@ -134,7 +146,9 @@ class CommentSection extends StatelessWidget {
 }
 
 class CommentItem extends StatelessWidget {
-  const CommentItem({super.key});
+  final CommentModel commentModel;
+
+  const CommentItem({super.key, required this.commentModel});
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +157,9 @@ class CommentItem extends StatelessWidget {
       children: [
         CircleAvatar(),
         SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(commentModel.createdBy), Text(commentModel.body)],
         ),
       ],
     );

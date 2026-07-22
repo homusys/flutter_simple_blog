@@ -5,24 +5,6 @@ class PostsViewmodel extends ChangeNotifier {
   final AuthService authService = AuthService();
   final postsTable = 'posts';
 
-  void createPost(String title, String body) async {
-    if (authService.isLoggedIn) {
-      try {
-        var test = await authService.supaClient.from(postsTable).insert({
-          'title': title,
-          'body': body,
-          'profile_id': authService.currentUser!.id,
-        }).select();
-        print(test.toString());
-        notifyListeners();
-      } catch (error) {
-        print(error);
-      }
-    } else {
-      print('Not logged in');
-    }
-  }
-
   Future<List<Map<String, dynamic>>> getPost(int postId) {
     return authService.supaClient.from(postsTable).select().eq('id', postId);
   }
@@ -57,5 +39,5 @@ class PostsViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> deletePost() async {}
+  void deletePost() async {}
 }

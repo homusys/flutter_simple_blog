@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/create_post_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
+import 'package:flutter_simple_blog/widgets/image_upload_field.dart';
 import 'package:provider/provider.dart';
 
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage({super.key});
 
-  Widget displayForm(PostsViewmodel vm) {
+  Widget displayForm(CreatePostViewmodel vm) {
     if (vm.authService.isLoggedIn) {
-      return CreatePostForm();
+      return CreatePostForm(vm: vm);
     }
     return LoginReminder();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PostsViewmodel>(
-      builder: (context, value, child) => displayForm(value),
+    return ChangeNotifierProvider(
+      create: (context) => CreatePostViewmodel(),
+      child: Consumer<CreatePostViewmodel>(
+        builder: (context, value, child) => displayForm(value),
+      ),
     );
   }
 }
@@ -39,7 +43,9 @@ class LoginReminder extends StatelessWidget {
 }
 
 class CreatePostForm extends StatelessWidget {
-  CreatePostForm({super.key});
+  final CreatePostViewmodel vm;
+
+  CreatePostForm({super.key, required this.vm});
 
   final TextEditingController _titleController = TextEditingController();
 
@@ -49,32 +55,29 @@ class CreatePostForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: [
-          CustomTextField(
-            controller: _titleController,
-            labelText: "Post title",
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomTextField(
+              controller: _titleController,
+              labelText: "Post title",
+            ),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(height: 20, child: Placeholder()),
-          ),
-          CustomTextField(
-            controller: _bodyController,
-            labelText: 'Post Body',
-            maxLength: 0xFFFF,
-            maxLines: null,
-          ),
-          Consumer<PostsViewmodel>(
-            builder: (context, value, child) => TextButton(
+            CustomTextField(
+              controller: _bodyController,
+              labelText: "Post Body",
+              maxLength: 0xFFFF,
+              maxLines: null,
+            ),
+            ImageUploadField(),
+            TextButton(
               onPressed: () {
-                value.createPost(_titleController.text, _bodyController.text);
+                vm.createPost(_titleController.text, _bodyController.text);
               },
               child: Text('Post'),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

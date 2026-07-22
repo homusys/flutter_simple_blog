@@ -32,7 +32,7 @@ class PostPage extends StatelessWidget {
                   Divider(height: 120, thickness: 80),
                   CommentForm(postId: postId),
                   Divider(height: 80, thickness: 1),
-                  CommentSection(),
+                  CommentSection(postId: postId),
                 ],
               ),
             );
@@ -104,14 +104,31 @@ class _CommentFormState extends State<CommentForm> {
 }
 
 class CommentSection extends StatelessWidget {
-  const CommentSection({super.key});
+  final int postId;
+  const CommentSection({super.key, required this.postId});
 
   @override
   Widget build(BuildContext context) {
     /// Turn into future builder into a listview.builder.
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Text('Comments'), for (int i = 0; i < 3; ++i) CommentItem()],
+
+    return Consumer<CommentsViewmodel>(
+      builder: (context, value, child) => FutureBuilder(
+        future: value.getAllCommentsFromPost(postId),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          final comments = snapshot.data!;
+          if (comments.isEmpty) {
+            return Text('No comments yet. Be the first one.');
+          }
+
+          return Column(
+            children: [for (int i = 0; i < comments.length; ++i) CommentItem()],
+          );
+        },
+      ),
     );
   }
 }

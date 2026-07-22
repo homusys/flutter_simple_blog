@@ -18,7 +18,6 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UsersViewmodel()),
-        ChangeNotifierProvider(create: (context) => PostsViewmodel()),
         ChangeNotifierProvider(create: (context) => CommentsViewmodel()),
       ],
       child: MainApp(),

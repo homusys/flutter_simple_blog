@@ -10,34 +10,40 @@ class PostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer<PostsViewmodel>(
-        builder: (context, value, child) => FutureBuilder(
-          future: value.getPost(postId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final post = snapshot.data!;
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  /// POST IMAGE
-                  Placeholder(),
+    return ChangeNotifierProvider(
+      create: (context) => PostsViewmodel(),
+      child: Consumer<PostsViewmodel>(
+        builder: (context, value, child) => Scaffold(
+          /// TODO(homusys):
+          /// compare future builder and viewmodel
+          body: FutureBuilder(
+            future: value.getThisPost(postId),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final post = snapshot.data!;
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    /// POST IMAGE
+                    if (post.imageUrls != null && post.imageUrls!.isNotEmpty)
+                      Image(image: NetworkImage(post.imageUrls![0])),
 
-                  /// POST TITLE
-                  Text(post[0]['title']),
+                    /// POST TITLE
+                    Text(post.title),
 
-                  /// POST BODY
-                  Text(post[0]['body']),
-                  Divider(height: 120, thickness: 80),
-                  CommentForm(postId: postId),
-                  Divider(height: 80, thickness: 1),
-                  CommentSection(postId: postId),
-                ],
-              ),
-            );
-          },
+                    /// POST BODY
+                    Text(post.body),
+                    Divider(height: 120, thickness: 80),
+                    CommentForm(postId: postId),
+                    Divider(height: 80, thickness: 1),
+                    CommentSection(postId: postId),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

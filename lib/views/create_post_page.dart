@@ -67,7 +67,7 @@ class CreatePostForm extends StatelessWidget {
               controller: _bodyController,
               labelText: "Post Body",
               maxLength: 0xFFFF,
-              maxLines: null,
+              maxLines: 10,
             ),
             ImageUploadField(),
             TextButton(

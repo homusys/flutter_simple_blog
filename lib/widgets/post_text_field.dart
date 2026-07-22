@@ -30,6 +30,7 @@ class PostTextField extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         labelText: labelText,
+        alignLabelWithHint: true,
       ),
       controller: controller,
       focusNode: _focusNode,

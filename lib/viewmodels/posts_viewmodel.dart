@@ -9,21 +9,6 @@ class PostsViewmodel extends ChangeNotifier {
     return authService.supaClient.from(postsTable).select().eq('id', postId);
   }
 
-  Future<List<Map<String, dynamic>>> getAllPosts() {
-    return authService.supaClient.from(postsTable).select('''
-      *,
-      post_images (
-        id,
-        image_url
-      ),
-      profiles (
-        id, 
-        email,
-        avatar_url
-      )
-    ''');
-  }
-
   void updatePost(int postId, String title, String body) async {
     if (authService.isLoggedIn) {
       var test = await authService.supaClient

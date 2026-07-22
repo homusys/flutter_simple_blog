@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/models/post_model.dart';
-import 'package:flutter_simple_blog/viewmodels/posts_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/home_viewmodel.dart';
 import 'package:flutter_simple_blog/views/post_page.dart';
 import 'package:provider/provider.dart';
 
@@ -9,47 +9,52 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Expanded(child: PostsView())]);
+    return ChangeNotifierProvider(
+      create: (context) => HomeViewmodel(),
+      child: Consumer<HomeViewmodel>(
+        builder: (context, vm, child) => Column(
+          children: [Expanded(child: PostsView(vm: vm))],
+        ),
+      ),
+    );
   }
 }
 
 /// The PostsView is a class that will contain all of the posts from the
 /// database.
-class PostsView extends StatelessWidget {
-  const PostsView({super.key});
+class PostsView extends StatefulWidget {
+  final HomeViewmodel vm;
+
+  const PostsView({super.key, required this.vm});
+
+  @override
+  State<PostsView> createState() => _PostsViewState();
+}
+
+class _PostsViewState extends State<PostsView> {
+  @override
+  void initState() {
+    widget.vm.getAllPosts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PostsViewmodel>(
-      builder: (context, value, child) => FutureBuilder(
-        future: value.getAllPosts(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          final posts = snapshot.data!;
+    // vm.getAllPosts();
 
-          if (posts.isEmpty) {
-            return Text('There are no posts.');
-          }
+    if (widget.vm.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
-          return ListView.builder(
-            itemCount: posts.length,
-            itemBuilder: (context, index) {
-              final postItem = posts[index];
+    if (widget.vm.posts.isEmpty) {
+      return Text('There are no posts.');
+    }
 
-              PostModel postModel = PostModel(
-                postId: postItem['id'],
-                createdAt: postItem['created_at'],
-                createdBy: postItem['profiles']['email'],
-                title: postItem['title'],
-              );
-
-              return PostItem(postModel: postModel);
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: widget.vm.posts.length,
+      itemBuilder: (context, index) {
+        return PostItem(postModel: widget.vm.posts[index]);
+      },
     );
   }
 }

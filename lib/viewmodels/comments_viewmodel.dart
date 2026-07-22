@@ -11,7 +11,10 @@ class CommentsViewmodel extends ChangeNotifier {
         .select('''
           *,
           comment_images (
-            id
+            *
+          ),
+          profiles (
+            *
           )
         ''')
         .eq('post_id', postId);

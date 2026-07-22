@@ -75,6 +75,8 @@ class CreatePostForm extends StatelessWidget {
                 vm.createPost(_titleController.text, _bodyController.text).then(
                   (value) {
                     if (context.mounted) {
+                      _titleController.clear();
+                      _bodyController.clear();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: const Text("Post created")),
                       );

@@ -36,6 +36,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     .then((success) {
                       if (success) {
                         if (context.mounted) {
+                          _emailController.clear();
+                          _passwordController.clear();
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Registered successfully!')),

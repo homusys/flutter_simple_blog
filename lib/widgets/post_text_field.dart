@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/viewmodels/create_post_viewmodel.dart';
 
 class PostTextField extends StatefulWidget {
-  PostTextField({
+  const PostTextField({
     super.key,
     required this.controller,
     this.vm,
@@ -20,7 +20,7 @@ class PostTextField extends StatefulWidget {
   final int? maxLines;
 
   final TextEditingController controller;
-  CreatePostViewmodel? vm;
+  final CreatePostViewmodel? vm;
 
   @override
   State<PostTextField> createState() => _PostTextFieldState();

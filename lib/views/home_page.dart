@@ -84,7 +84,6 @@ class PostItem extends StatelessWidget {
   const PostItem({super.key, required this.postModel});
 
   final PostModel postModel;
-  final String _imageSrc = 'Sample Image';
 
   Widget createPostHeader(String email) {
     return Row(
@@ -97,10 +96,14 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  Widget createPostBody(String title, String imageSrc) {
+  Widget createPostBody(String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Text(title), Text(imageSrc)],
+      children: [
+        Text(title),
+        if (postModel.imageUrls != null && postModel.imageUrls!.isNotEmpty)
+          Image(image: NetworkImage(postModel.imageUrls![0])),
+      ],
     );
   }
 
@@ -143,7 +146,7 @@ class PostItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               createPostHeader(postModel.createdBy),
-              createPostBody(postModel.title, _imageSrc),
+              createPostBody(postModel.title),
               createPostActionsContainer(),
             ],
           ),

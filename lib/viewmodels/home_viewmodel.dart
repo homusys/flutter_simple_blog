@@ -39,12 +39,15 @@ class HomeViewmodel extends ChangeNotifier {
           .order('created_at', ascending: false);
 
       for (final post in res) {
+        var postImages = post['post_images'];
+
         _posts.add(
           PostModel(
             postId: post['id'],
             createdAt: post['created_at'],
             createdBy: post['profiles']['email'],
             title: post['title'],
+            imageUrls: [for (final postImg in postImages) postImg['image_url']],
           ),
         );
       }

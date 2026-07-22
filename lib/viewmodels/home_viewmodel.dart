@@ -6,21 +6,25 @@ class HomeViewmodel extends ChangeNotifier {
   final AuthService authService = AuthService();
 
   bool _isLoading = false;
-  List<PostModel> _posts = [];
+  final List<PostModel> _posts = [];
 
   bool get isLoading => _isLoading;
   List<PostModel> get posts => _posts;
 
   Future<void> getAllPosts() async {
-    _posts.clear();
+    /// TODO(homusys):
+    /// Fix crashing when this method is being invoked
+    /// while the home is still building. Race conditions...
 
+    _posts.clear();
     _isLoading = true;
     notifyListeners();
 
     /// TODO(homusys): make this a database service
-    var res = await authService.supaClient
-        .from('posts')
-        .select('''
+    try {
+      var res = await authService.supaClient
+          .from('posts')
+          .select('''
       *,
       post_images (
         id,
@@ -32,20 +36,23 @@ class HomeViewmodel extends ChangeNotifier {
         avatar_url
       )
     ''')
-        .order('created_at', ascending: false);
+          .order('created_at', ascending: false);
 
-    for (final post in res) {
-      _posts.add(
-        PostModel(
-          postId: post['id'],
-          createdAt: post['created_at'],
-          createdBy: post['profiles']['email'],
-          title: post['title'],
-        ),
-      );
+      for (final post in res) {
+        _posts.add(
+          PostModel(
+            postId: post['id'],
+            createdAt: post['created_at'],
+            createdBy: post['profiles']['email'],
+            title: post['title'],
+          ),
+        );
+      }
+    } catch (error) {
+      print(error);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-
-    _isLoading = false;
-    notifyListeners();
   }
 }

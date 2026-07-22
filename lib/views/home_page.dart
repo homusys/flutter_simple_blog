@@ -10,10 +10,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HomeViewmodel(),
+      /// https://dart.dev/language/operators#cascade-notation
+      create: (context) => HomeViewmodel()..getAllPosts(),
       child: Consumer<HomeViewmodel>(
         builder: (context, vm, child) => Column(
-          children: [Expanded(child: PostsView(vm: vm))],
+          children: [
+            Row(
+              children: [
+                Text('Posts'),
+                Spacer(),
+                TextButton(
+                  onPressed: () {
+                    vm.getAllPosts();
+                  },
+                  child: Text('Refresh'),
+                ),
+              ],
+            ),
+            Expanded(child: PostsView(vm: vm)),
+          ],
         ),
       ),
     );
@@ -32,16 +47,17 @@ class PostsView extends StatefulWidget {
 }
 
 class _PostsViewState extends State<PostsView> {
-  @override
-  void initState() {
-    widget.vm.getAllPosts();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   /// https://medium.com/@wassimsakri/understanding-widgetsbinding-instance-addpostframecallback-in-flutter-86860d5266ff
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     widget.vm.getAllPosts();
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    // vm.getAllPosts();
-
     if (widget.vm.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }

@@ -18,7 +18,9 @@ class HomeViewmodel extends ChangeNotifier {
     notifyListeners();
 
     /// TODO(homusys): make this a database service
-    var res = await authService.supaClient.from('posts').select('''
+    var res = await authService.supaClient
+        .from('posts')
+        .select('''
       *,
       post_images (
         id,
@@ -29,7 +31,8 @@ class HomeViewmodel extends ChangeNotifier {
         email,
         avatar_url
       )
-    ''');
+    ''')
+        .order('created_at', ascending: false);
 
     for (final post in res) {
       _posts.add(

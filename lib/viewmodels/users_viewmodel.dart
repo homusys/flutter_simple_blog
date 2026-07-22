@@ -93,16 +93,19 @@ class UsersViewmodel extends ChangeNotifier {
     return (authService.currentUser != null && session != null);
   }
 
-  void logoutUser() async {
+  Future<void> logoutUser() async {
     final SupabaseClient supabase;
+    void res;
 
     try {
       supabase = Supabase.instance.client;
-      await supabase.auth.signOut();
+      res = await supabase.auth.signOut();
     } catch (error) {
       print('Logout error: $error');
     } finally {
       notifyListeners();
     }
+
+    return res;
   }
 }

@@ -44,10 +44,14 @@ class _LoginFormState extends State<LoginForm> {
                   )
                   .then((success) {
                     if (success) {
+                      String email = _emailController.text.trim();
                       _emailController.clear();
                       _passwordController.clear();
                       if (context.mounted) {
                         Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Logged in as $email')),
+                        );
                       }
                     }
                   }),

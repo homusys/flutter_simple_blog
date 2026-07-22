@@ -37,6 +37,9 @@ class _RegisterFormState extends State<RegisterForm> {
                       if (success) {
                         if (context.mounted) {
                           Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Registered successfully!')),
+                          );
                         }
                       }
                     }),

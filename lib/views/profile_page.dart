@@ -89,7 +89,18 @@ class UserProfileBody extends StatelessWidget {
     return Column(
       children: [
         Row(children: [ProfilePhoto(), Text('0 POSTS')]),
-        TextButton(onPressed: vm.logoutUser, child: Text('Logout')),
+        TextButton(
+          onPressed: () {
+            vm.logoutUser().then((value) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Logged out successfully')),
+                );
+              }
+            });
+          },
+          child: Text('Logout'),
+        ),
       ],
     );
   }

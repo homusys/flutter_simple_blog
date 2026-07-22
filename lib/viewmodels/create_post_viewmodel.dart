@@ -12,6 +12,10 @@ class CreatePostViewmodel extends ChangeNotifier {
   bool get hasFilesToUpload =>
       filesToUpload != null && filesToUpload!.isNotEmpty;
 
+  String? validateTitle(String title) {
+    return (title.isEmpty) ? "A title is required" : null;
+  }
+
   Future<void> createPost(String title, String body) async {
     if (authService.isLoggedIn) {
       try {

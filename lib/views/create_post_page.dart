@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/viewmodels/create_post_viewmodel.dart';
-import 'package:flutter_simple_blog/widgets/custom_text_field.dart';
+import 'package:flutter_simple_blog/widgets/post_text_field.dart';
 import 'package:flutter_simple_blog/widgets/image_upload_field.dart';
 import 'package:provider/provider.dart';
 
@@ -58,12 +58,12 @@ class CreatePostForm extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            CustomTextField(
+            PostTextField(
               controller: _titleController,
               labelText: "Post title",
             ),
 
-            CustomTextField(
+            PostTextField(
               controller: _bodyController,
               labelText: "Post Body",
               maxLength: 0xFFFF,

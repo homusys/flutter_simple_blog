@@ -12,7 +12,7 @@ class CreatePostViewmodel extends ChangeNotifier {
   bool get hasFilesToUpload =>
       filesToUpload != null && filesToUpload!.isNotEmpty;
 
-  void createPost(String title, String body) async {
+  Future<void> createPost(String title, String body) async {
     if (authService.isLoggedIn) {
       try {
         var test = await authService.supaClient.from('posts').insert({

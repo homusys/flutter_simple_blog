@@ -72,7 +72,15 @@ class CreatePostForm extends StatelessWidget {
             ImageUploadField(),
             TextButton(
               onPressed: () {
-                vm.createPost(_titleController.text, _bodyController.text);
+                vm.createPost(_titleController.text, _bodyController.text).then(
+                  (value) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: const Text("Post created")),
+                      );
+                    }
+                  },
+                );
               },
               child: Text('Post'),
             ),

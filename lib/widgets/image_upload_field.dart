@@ -6,7 +6,7 @@ class ImageUploadField extends StatelessWidget {
   const ImageUploadField({super.key});
 
   Widget showImagesToUpload(CreatePostViewmodel vm) {
-    if (!vm.hasFilesToUpload) {
+    if (!vm.hasImagesToUpload) {
       return SizedBox.shrink();
     }
 
@@ -16,7 +16,7 @@ class ImageUploadField extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (final file in vm.filesToUpload!)
+            for (final file in vm.imagesToUpload!)
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Image.memory(file.bytes!, width: 80, height: 80),

@@ -2,42 +2,60 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:flutter_simple_blog/services/file_service.dart';
+import 'package:flutter_simple_blog/services/storage_service.dart';
 
 class CreatePostViewmodel extends ChangeNotifier {
   final FileService fileService = FileService();
   final AuthService authService = AuthService();
+  final StorageService storageService = StorageService();
 
-  List<PlatformFile>? filesToUpload;
+  List<PlatformFile>? imagesToUpload;
 
-  bool get hasFilesToUpload =>
-      filesToUpload != null && filesToUpload!.isNotEmpty;
+  bool get hasImagesToUpload =>
+      imagesToUpload != null && imagesToUpload!.isNotEmpty;
 
   String? validateTitle(String title) {
     return (title.isEmpty) ? "A title is required" : null;
   }
 
   Future<void> createPost(String title, String body) async {
-    if (authService.isLoggedIn) {
-      try {
-        var test = await authService.supaClient.from('posts').insert({
-          'title': title,
-          'body': body,
-          'profile_id': authService.currentUser!.id,
-        }).select();
-        print(test.toString());
-        notifyListeners();
-      } catch (error) {
-        print(error);
+    if (!authService.isLoggedIn) {
+      return;
+    }
+
+    try {
+      final post = await authService.supaClient
+          .from('posts')
+          .insert({
+            'title': title,
+            'body': body,
+            'profile_id': authService.currentUser!.id,
+          })
+          .select()
+          .single();
+
+      final postId = post['id'];
+
+      if (hasImagesToUpload) {
+        for (final image in imagesToUpload!) {
+          final imageUrl = await storageService.uploadImageToBucket(image);
+
+          await authService.supaClient.from('post_images').insert({
+            'post_id': postId,
+            'image_url': imageUrl,
+          });
+        }
       }
-    } else {
-      print('Not logged in');
+      notifyListeners();
+    } catch (error) {
+      print(error);
     }
   }
 
   /// Calls the file service to pick images asynchronously.
   void selectImages() {
     fileService.getMultipleFiles().then((files) {
-      filesToUpload = files;
+      imagesToUpload = files;
       notifyListeners();
     });
   }

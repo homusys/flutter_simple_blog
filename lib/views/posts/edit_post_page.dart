@@ -17,7 +17,7 @@ class EditPostPage extends StatelessWidget {
         submitText: 'Post',
         titleValidator: vm.validateTitle,
         onSubmit: (title, body) {
-          return vm.updatePost(title, body);
+          return vm.updatePost(post.postId, title, body);
         },
       );
     }

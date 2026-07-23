@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:flutter_simple_blog/services/file_service.dart';
 import 'package:flutter_simple_blog/services/storage_service.dart';
@@ -54,7 +55,33 @@ class CreatePostViewmodel extends ChangeNotifier {
     }
   }
 
-  Future<void> updatePost(String title, String body) async {}
+  Future<void> updatePost(int postId, String title, String body) async {
+    if (!authService.isLoggedIn) {
+      return;
+    }
+
+    try {
+      await authService.supaClient
+          .from('posts')
+          .update({'title': title, 'body': body})
+          .eq('id', 1);
+      notifyListeners();
+    } catch (error) {
+      ///
+    }
+  }
+
+  Future<void> deletePost(int postId) async {
+    if (!authService.isLoggedIn) {
+      return;
+    }
+
+    try {
+      await authService.supaClient.from('posts').delete().eq('id', postId);
+    } catch (error) {
+      ///
+    }
+  }
 
   /// Calls the file service to pick images asynchronously.
   void selectImages() {

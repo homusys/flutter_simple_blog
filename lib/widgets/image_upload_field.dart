@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class ImageUploadField extends StatelessWidget {
   const ImageUploadField({super.key});
 
-  Widget showImagesToUpload(CreatePostViewmodel vm) {
+  Widget showImagesToUpload(PostEditorViewModel vm) {
     if (!vm.hasImagesToUpload) {
       return SizedBox.shrink();
     }
@@ -29,7 +29,7 @@ class ImageUploadField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreatePostViewmodel>(
+    return Consumer<PostEditorViewModel>(
       builder: (context, viewModel, child) => Column(
         children: [
           showImagesToUpload(viewModel),

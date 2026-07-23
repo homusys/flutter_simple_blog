@@ -9,7 +9,7 @@ class EditPostPage extends StatelessWidget {
 
   const EditPostPage({super.key, required this.post});
 
-  Widget displayForm(CreatePostViewmodel vm) {
+  Widget displayForm(PostEditorViewModel vm) {
     if (vm.authService.isLoggedIn) {
       return PostForm(
         initialTitle: post.title,
@@ -27,8 +27,8 @@ class EditPostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => CreatePostViewmodel(),
-      child: Consumer<CreatePostViewmodel>(
+      create: (context) => PostEditorViewModel(),
+      child: Consumer<PostEditorViewModel>(
         builder: (context, value, child) => Scaffold(
           appBar: AppBar(
             centerTitle: true,

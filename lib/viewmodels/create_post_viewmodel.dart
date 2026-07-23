@@ -1,11 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:flutter_simple_blog/services/file_service.dart';
 import 'package:flutter_simple_blog/services/storage_service.dart';
 
-class CreatePostViewmodel extends ChangeNotifier {
+class PostEditorViewModel extends ChangeNotifier {
   final FileService fileService = FileService();
   final AuthService authService = AuthService();
   final StorageService storageService = StorageService();

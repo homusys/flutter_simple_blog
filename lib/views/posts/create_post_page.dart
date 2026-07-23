@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class CreatePostPage extends StatelessWidget {
   const CreatePostPage({super.key});
 
-  Widget displayForm(CreatePostViewmodel vm) {
+  Widget displayForm(PostEditorViewModel vm) {
     if (vm.authService.isLoggedIn) {
       return PostForm(
         onSubmit: (title, body) {
@@ -22,8 +22,8 @@ class CreatePostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => CreatePostViewmodel(),
-      child: Consumer<CreatePostViewmodel>(
+      create: (context) => PostEditorViewModel(),
+      child: Consumer<PostEditorViewModel>(
         builder: (context, value, child) => displayForm(value),
       ),
     );

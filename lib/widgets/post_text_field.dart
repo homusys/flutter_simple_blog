@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/viewmodels/create_post_viewmodel.dart';
 
 class PostTextField extends StatefulWidget {
   const PostTextField({
     super.key,
     required this.controller,
-    this.vm,
+    this.validator,
     this.onLogin,
     this.maxLines = 1,
     this.labelText = 'Placeholder',
@@ -20,7 +19,8 @@ class PostTextField extends StatefulWidget {
   final int? maxLines;
 
   final TextEditingController controller;
-  final CreatePostViewmodel? vm;
+
+  final String? Function(String?)? validator;
 
   @override
   State<PostTextField> createState() => _PostTextFieldState();
@@ -45,12 +45,7 @@ class _PostTextFieldState extends State<PostTextField> {
       focusNode: _focusNode,
       maxLines: widget.maxLines,
       obscureText: widget.obscureText,
-      validator: (value) {
-        if (widget.vm != null) {
-          return widget.vm!.validateTitle(widget.controller.text.trim());
-        }
-        return null;
-      },
+      validator: widget.validator,
     );
   }
 }

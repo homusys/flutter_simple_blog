@@ -14,8 +14,8 @@ class CreatePostViewmodel extends ChangeNotifier {
   bool get hasImagesToUpload =>
       imagesToUpload != null && imagesToUpload!.isNotEmpty;
 
-  String? validateTitle(String title) {
-    return (title.isEmpty) ? "A title is required" : null;
+  String? validateTitle(String? title) {
+    return (title != null && title.isEmpty) ? "A title is required" : null;
   }
 
   Future<void> createPost(String title, String body) async {
@@ -53,6 +53,8 @@ class CreatePostViewmodel extends ChangeNotifier {
       print(error);
     }
   }
+
+  Future<void> updatePost(String title, String body) async {}
 
   /// Calls the file service to pick images asynchronously.
   void selectImages() {

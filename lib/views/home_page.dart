@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/viewmodels/home_viewmodel.dart';
-import 'package:flutter_simple_blog/views/post_page.dart';
+import 'package:flutter_simple_blog/views/posts/edit_post_page.dart';
+import 'package:flutter_simple_blog/views/posts/post_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -104,11 +105,18 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  Widget createPostActionsContainer() {
+  Widget createPostActionsContainer(BuildContext context) {
     // Widget likeButton = createPostActions(() {}, Icons.thumb_up_outlined);
     Widget commentButton = createPostActions(null, Icons.chat_rounded);
     Widget editButton = createPostActions(
-      () {},
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(body: EditPostPage(post: postModel)),
+          ),
+        );
+      },
       Icons.edit_rounded,
       count: null,
     );
@@ -169,7 +177,7 @@ class PostItem extends StatelessWidget {
             children: [
               createPostHeader(postModel.createdBy),
               createPostBody(postModel.title),
-              createPostActionsContainer(),
+              createPostActionsContainer(context),
             ],
           ),
         ),

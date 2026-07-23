@@ -45,6 +45,8 @@ class CreatePostViewmodel extends ChangeNotifier {
             'image_url': imageUrl,
           });
         }
+
+        imagesToUpload!.clear();
       }
       notifyListeners();
     } catch (error) {
@@ -55,7 +57,9 @@ class CreatePostViewmodel extends ChangeNotifier {
   /// Calls the file service to pick images asynchronously.
   void selectImages() {
     fileService.getMultipleFiles().then((files) {
-      imagesToUpload = files;
+      if (files != null) {
+        imagesToUpload = files;
+      }
       notifyListeners();
     });
   }

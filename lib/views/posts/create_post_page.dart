@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_blog/viewmodels/create_post_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/post_editor_viewmodel.dart';
 import 'package:flutter_simple_blog/widgets/post_form.dart';
 import 'package:provider/provider.dart';
 

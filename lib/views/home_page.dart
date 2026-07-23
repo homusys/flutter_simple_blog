@@ -120,7 +120,13 @@ class PostItem extends StatelessWidget {
       Icons.edit_rounded,
       count: null,
     );
-    Widget deleteButton = createPostActions(() {}, Icons.delete, count: null);
+    Widget deleteButton = createPostActions(
+      () {
+        vm.deletePost(postModel.postId);
+      },
+      Icons.delete,
+      count: null,
+    );
 
     bool currentUserIsPostOwner =
         vm.authService.isLoggedIn &&

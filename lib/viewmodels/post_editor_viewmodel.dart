@@ -70,18 +70,6 @@ class PostEditorViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> deletePost(int postId) async {
-    if (!authService.isLoggedIn) {
-      return;
-    }
-
-    try {
-      await authService.supaClient.from('posts').delete().eq('id', postId);
-    } catch (error) {
-      ///
-    }
-  }
-
   /// Calls the file service to pick images asynchronously.
   void selectImages() {
     fileService.getMultipleFiles().then((files) {

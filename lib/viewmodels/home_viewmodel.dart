@@ -68,4 +68,18 @@ class HomeViewmodel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> deletePost(int postId) async {
+    if (!authService.isLoggedIn) {
+      return;
+    }
+
+    try {
+      await authService.supaClient.from('posts').delete().eq('id', postId);
+    } catch (error) {
+      ///
+    } finally {
+      notifyListeners();
+    }
+  }
 }

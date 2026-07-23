@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/models/post_images_model.dart';
 import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 import 'package:flutter_simple_blog/services/storage_service.dart';
@@ -39,8 +40,7 @@ class HomeViewmodel extends ChangeNotifier {
           .select('''
       *,
       post_images (
-        id,
-        image_url
+        *
       ),
       profiles (
         id, 
@@ -59,7 +59,16 @@ class HomeViewmodel extends ChangeNotifier {
             createdAt: post['created_at'],
             createdBy: post['profiles']['email'],
             title: post['title'],
-            imageUrls: [for (final postImg in postImages) postImg['image_url']],
+            images: [
+              for (final postImg in postImages)
+                PostImagesModel(
+                  postImageId: postImg['id'],
+                  postId: post['id'],
+                  createdAt: postImg['created_at'],
+                  publicUrl: postImg['public_url'],
+                  bucketPath: postImg['bucket_path'],
+                ),
+            ],
           ),
         );
       }

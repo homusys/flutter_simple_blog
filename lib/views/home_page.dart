@@ -99,8 +99,8 @@ class PostItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title),
-        if (postModel.imageUrls != null && postModel.imageUrls!.isNotEmpty)
-          Image(image: NetworkImage(postModel.imageUrls![0])),
+        if (postModel.images != null && postModel.images!.isNotEmpty)
+          Image(image: NetworkImage(postModel.images![0].publicUrl)),
       ],
     );
   }

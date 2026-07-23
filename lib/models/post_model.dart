@@ -1,3 +1,5 @@
+import 'package:flutter_simple_blog/models/post_images_model.dart';
+
 class PostModel {
   final int postId;
   final String createdAt;
@@ -5,14 +7,14 @@ class PostModel {
   final String title;
   final String body;
 
-  final List<String>? imageUrls;
+  final List<PostImagesModel>? images;
 
   PostModel({
     required this.postId,
     required this.createdAt,
     required this.createdBy,
     required this.title,
-    this.imageUrls,
+    this.images,
     this.body = 'Sample Body',
   });
 }

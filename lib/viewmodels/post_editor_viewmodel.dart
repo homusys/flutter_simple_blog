@@ -42,7 +42,8 @@ class PostEditorViewModel extends ChangeNotifier {
 
           await authService.supaClient.from('post_images').insert({
             'post_id': postId,
-            'image_url': imageUrl,
+            'bucket_path': imageUrl['bucket_path'],
+            'public_url': imageUrl['public_url'],
           });
         }
 

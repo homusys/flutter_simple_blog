@@ -27,8 +27,8 @@ class PostPage extends StatelessWidget {
                 child: Column(
                   children: [
                     /// POST IMAGE
-                    if (post.imageUrls != null && post.imageUrls!.isNotEmpty)
-                      Image(image: NetworkImage(post.imageUrls![0])),
+                    if (post.images != null && post.images!.isNotEmpty)
+                      Image(image: NetworkImage(post.images![0].publicUrl)),
 
                     /// POST TITLE
                     Text(post.title),

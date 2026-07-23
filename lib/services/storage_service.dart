@@ -8,11 +8,14 @@ class StorageService {
 
   SupabaseStorageClient get supaStorage => Supabase.instance.client.storage;
 
-  Future<String> uploadImageToBucket(PlatformFile image) async {
+  Future<Map<String, String>> uploadImageToBucket(PlatformFile image) async {
     final fileName = '${DateTime.now().millisecondsSinceEpoch}_${image.name}';
 
     await supaStorage.from('post_images').uploadBinary(fileName, image.bytes!);
-    return supaStorage.from('post_images').getPublicUrl(fileName);
+    return {
+      'bucket_path': fileName,
+      'public_url': supaStorage.from('post_images').getPublicUrl(fileName),
+    };
   }
 
   Future<List<String>> uploadImagesToBucket(

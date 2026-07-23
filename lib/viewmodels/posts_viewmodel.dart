@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_simple_blog/models/post_images_model.dart';
 import 'package:flutter_simple_blog/models/post_model.dart';
 import 'package:flutter_simple_blog/services/auth_service.dart';
 
@@ -25,7 +26,7 @@ class PostsViewmodel extends ChangeNotifier {
         .from(postsTable)
         .select('''
         *, 
-        post_images(id, image_url),
+        post_images(*),
         profiles(id, email, avatar_url)''')
         .eq('id', postId)
         .single();
@@ -38,7 +39,16 @@ class PostsViewmodel extends ChangeNotifier {
       createdBy: post['profiles']['email'],
       title: post['title'],
       body: post['body'],
-      imageUrls: [for (final postImg in postImages) postImg['image_url']],
+      images: [
+        for (final postImg in postImages)
+          PostImagesModel(
+            postImageId: postImg['id'],
+            postId: post['id'],
+            createdAt: postImg['created_at'],
+            publicUrl: postImg['public_url'],
+            bucketPath: postImg['bucket_path'],
+          ),
+      ],
     );
   }
 

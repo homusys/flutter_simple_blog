@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_blog/viewmodels/comments_viewmodel.dart';
+import 'package:flutter_simple_blog/viewmodels/home_viewmodel.dart';
 import 'package:flutter_simple_blog/viewmodels/users_viewmodel.dart';
 import 'package:flutter_simple_blog/theme/main_app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,6 +18,18 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UsersViewmodel()),
+
+        /// The home's viewmodel provider is moved to the top in order
+        /// to avoid race conditions with the widget creation. When
+        /// calling the notifyListeners() while creating the HomePage,
+        /// the app tends to crash. I think this is because when we
+        /// recreate the HomePage, A new instance of the viewmodel is
+        /// being created too while the old viewmodel is still running
+        /// its async function. then, when the old async method invokes
+        /// the notifyListeners() while the new home is being rebuilt,
+        /// an exception is being raised.
+        ///
+        ChangeNotifierProvider(create: (context) => HomeViewmodel()),
         ChangeNotifierProvider(create: (context) => CommentsViewmodel()),
       ],
       child: MainApp(),
@@ -75,9 +88,6 @@ class AppNavigatorState extends State<AppNavigator> {
       case 1:
         return pageMap["post"];
       case 2:
-        if (vm.authService.isLoggedIn) {
-          return pageMap["profile"];
-        }
         return pageMap["profile"];
       default:
         return pageMap["home"];

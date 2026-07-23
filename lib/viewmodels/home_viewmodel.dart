@@ -59,6 +59,7 @@ class HomeViewmodel extends ChangeNotifier {
             createdAt: post['created_at'],
             createdBy: post['profiles']['email'],
             title: post['title'],
+            body: post['body'],
             images: [
               for (final postImg in postImages)
                 PostImagesModel(

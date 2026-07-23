@@ -117,7 +117,7 @@ class AppNavigatorState extends State<AppNavigator> {
             padding: const EdgeInsets.all(12.0),
             child: showUserAvatar(vm.authService.isLoggedIn),
           ),
-          title: Text(appBarPageLabels[currentPageIndex]),
+          title: Text(appBarPageLabels[vm.currentPageIndex]),
           centerTitle: true,
         ),
         body: updatePage(vm.currentPageIndex),

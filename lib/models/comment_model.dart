@@ -1,3 +1,5 @@
+import 'package:flutter_simple_blog/models/comment_images_model.dart';
+
 class CommentModel {
   final int id;
   final String createdAt;
@@ -5,11 +7,14 @@ class CommentModel {
   final int postId;
   final String body;
 
-  const CommentModel({
+  final List<CommentImagesModel>? images;
+
+  CommentModel({
     required this.id,
     required this.createdAt,
     required this.createdBy,
     required this.body,
     required this.postId,
+    this.images,
   });
 }

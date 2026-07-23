@@ -14,8 +14,20 @@ class PostPage extends StatelessWidget {
       create: (context) => PostsViewmodel(),
       child: Consumer<PostsViewmodel>(
         builder: (context, value, child) => Scaffold(
-          /// TODO(homusys):
-          /// compare future builder and viewmodel
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                blendMode: BlendMode.difference,
+              ),
+            ),
+          ),
+          extendBodyBehindAppBar: true,
           body: FutureBuilder(
             future: value.getThisPost(postId),
             builder: (context, snapshot) {

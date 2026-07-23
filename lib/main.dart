@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 import 'views/profile_page.dart';
 import 'views/home_page.dart';
-import 'views/create_post_page.dart';
+import 'views/posts/create_post_page.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -83,8 +83,8 @@ class AppNavigatorState extends State<AppNavigator> {
     });
   }
 
-  Widget? updatePage(UsersViewmodel vm) {
-    switch (currentPageIndex) {
+  Widget? updatePage(int index) {
+    switch (index) {
       case 1:
         return pageMap["post"];
       case 2:
@@ -94,11 +94,11 @@ class AppNavigatorState extends State<AppNavigator> {
     }
   }
 
-  Widget? showUserAvatar(UsersViewmodel vm) {
+  Widget? showUserAvatar(bool isLogged) {
     if (currentPageIndex == 2) {
       return null;
     }
-    if (vm.authService.isLoggedIn) {
+    if (isLogged) {
       /// TODO: Replace with user's profile image if there is any
       return CircleAvatar();
     }
@@ -111,19 +111,19 @@ class AppNavigatorState extends State<AppNavigator> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UsersViewmodel>(
-      builder: (context, value, child) => Scaffold(
+      builder: (context, vm, child) => Scaffold(
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: showUserAvatar(value),
+            child: showUserAvatar(vm.authService.isLoggedIn),
           ),
           title: Text(appBarPageLabels[currentPageIndex]),
           centerTitle: true,
         ),
-        body: updatePage(value),
+        body: updatePage(vm.currentPageIndex),
         bottomNavigationBar: NavigationBar(
-          selectedIndex: currentPageIndex,
-          onDestinationSelected: updatePageIndex,
+          selectedIndex: vm.currentPageIndex,
+          onDestinationSelected: vm.updatePageIndex,
           destinations: <NavigationDestination>[
             NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),

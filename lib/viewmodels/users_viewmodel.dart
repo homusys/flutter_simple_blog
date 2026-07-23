@@ -6,6 +6,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class UsersViewmodel extends ChangeNotifier {
   final AuthService authService = AuthService();
 
+  int _currentPageIndex = 0;
+  int get currentPageIndex => _currentPageIndex;
+
+  void updatePageIndex(int newIndex) {
+    _currentPageIndex = newIndex;
+    notifyListeners();
+  }
+
   String getCurrentUserEmail() {
     if (authService.isLoggedIn) {
       return authService.currentUser!.email.toString();

@@ -113,7 +113,7 @@ class PostItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Scaffold(body: EditPostPage(post: postModel)),
+            builder: (context) => EditPostPage(post: postModel),
           ),
         );
       },

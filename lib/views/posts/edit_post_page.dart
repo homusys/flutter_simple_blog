@@ -29,7 +29,20 @@ class EditPostPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CreatePostViewmodel(),
       child: Consumer<CreatePostViewmodel>(
-        builder: (context, value, child) => displayForm(value),
+        builder: (context, value, child) => Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('Edit Post'),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back_rounded),
+            ),
+          ),
+
+          body: displayForm(value),
+        ),
       ),
     );
   }

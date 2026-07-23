@@ -87,10 +87,10 @@ class HomeViewmodel extends ChangeNotifier {
     }
 
     try {
-      /// Get all the owner-uploaded image urls related to the post.
+      /// Get all the owner-uploaded image paths related to the post.
       final images = await authService.supaClient
           .from('post_images')
-          .select('image_url')
+          .select('bucket_path')
           .eq('post_id', postId);
 
       /// Delete all images related to post id.
@@ -98,7 +98,7 @@ class HomeViewmodel extends ChangeNotifier {
         await storageService.supaStorage
             .from('post_images')
             /// https://stackoverflow.com/questions/55789048/what-does-the-as-keyword-do-in-dart-language
-            .remove(images.map((e) => e['image_url'] as String).toList());
+            .remove(images.map((e) => e['bucket_path'] as String).toList());
       }
 
       /// This should cascade deletion to all data referencing this id.

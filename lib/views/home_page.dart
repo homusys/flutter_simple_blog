@@ -65,7 +65,7 @@ class _PostsViewState extends State<PostsView> {
     return ListView.builder(
       itemCount: widget.vm.posts.length,
       itemBuilder: (context, index) {
-        return PostItem(postModel: widget.vm.posts[index]);
+        return PostItem(postModel: widget.vm.posts[index], vm: widget.vm);
       },
     );
   }
@@ -77,9 +77,10 @@ class _PostsViewState extends State<PostsView> {
 /// poster, then the post can be edited by that user. Otherwise, the current
 /// user is only able to read and react the post.
 class PostItem extends StatelessWidget {
-  const PostItem({super.key, required this.postModel});
+  const PostItem({super.key, required this.postModel, required this.vm});
 
   final PostModel postModel;
+  final HomeViewmodel vm;
 
   Widget createPostHeader(String email) {
     return Row(
@@ -105,20 +106,45 @@ class PostItem extends StatelessWidget {
 
   Widget createPostActionsContainer() {
     // Widget likeButton = createPostActions(() {}, Icons.thumb_up_outlined);
-    Widget commentButton = createPostActions(() {}, Icons.chat_bubble);
+    Widget commentButton = createPostActions(null, Icons.chat_rounded);
+    Widget editButton = createPostActions(
+      () {},
+      Icons.edit_rounded,
+      count: null,
+    );
+    Widget deleteButton = createPostActions(() {}, Icons.delete, count: null);
 
-    return Row(children: [/*likeButton, */ commentButton]);
+    bool currentUserIsPostOwner =
+        vm.authService.isLoggedIn &&
+        vm.authService.currentUser!.email == postModel.createdBy;
+
+    return Row(
+      children: [
+        /*likeButton, */ commentButton,
+        if (currentUserIsPostOwner) deleteButton,
+        if (currentUserIsPostOwner) editButton,
+      ],
+    );
   }
 
   Widget createPostActions(
     void Function()? onPressed,
     IconData? iconData, {
-    int count = 0,
+    int? count = 0,
   }) {
     return Row(
       children: [
-        IconButton(onPressed: onPressed, icon: Icon(iconData)),
-        Text('$count'),
+        IconButton(
+          onPressed: onPressed,
+          icon: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(iconData, size: 16),
+              if (count != null) SizedBox(width: 4),
+              if (count != null) Text('$count'),
+            ],
+          ),
+        ),
       ],
     );
   }

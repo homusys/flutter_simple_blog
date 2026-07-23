@@ -15,6 +15,6 @@ class PostModel {
     required this.createdBy,
     required this.title,
     this.images,
-    this.body = 'Sample Body',
+    this.body = '',
   });
 }

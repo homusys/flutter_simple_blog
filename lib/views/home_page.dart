@@ -122,7 +122,13 @@ class PostItem extends StatelessWidget {
     );
     Widget deleteButton = createPostActions(
       () {
-        vm.deletePost(postModel.postId);
+        vm.deletePost(postModel.postId).then((value) {
+          vm.getAllPosts(forceRefresh: true);
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Post deleted')));
+        });
       },
       Icons.delete,
       count: null,

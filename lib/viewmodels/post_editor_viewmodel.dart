@@ -63,7 +63,7 @@ class PostEditorViewModel extends ChangeNotifier {
       await authService.supaClient
           .from('posts')
           .update({'title': title, 'body': body})
-          .eq('id', 1);
+          .eq('id', postId);
       notifyListeners();
     } catch (error) {
       ///

@@ -121,12 +121,13 @@ class AppNavigatorState extends State<AppNavigator> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                showUserAvatar(vm.authService.isLoggedIn),
-                Expanded(
-                  child: Center(
-                    child: Text(appBarPageLabels[vm.currentPageIndex]),
-                  ),
+                // Expanded(child: showUserAvatar(vm.authService.isLoggedIn)),
+                Spacer(),
+                Text(
+                  appBarPageLabels[vm.currentPageIndex],
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
+                Spacer(),
               ],
             ),
           ),

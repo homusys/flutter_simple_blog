@@ -87,8 +87,25 @@ class UserProfileBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(children: [ProfilePhoto(), Text('0 POSTS')]),
+        Row(
+          children: [
+            ProfilePhoto(),
+            SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  vm.authService.currentUser!.email.toString(),
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                Text('0 POSTS'),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 20),
         TextButton(
           onPressed: () {
             vm.logoutUser().then((value) {
@@ -119,8 +136,8 @@ class ProfilePhotoState extends State<ProfilePhoto> {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: SizedBox(
-        width: 150,
-        height: 150,
+        width: 120,
+        height: 120,
         child: CircleAvatar(
           foregroundImage: AssetImage('assets/images/portrait.png'),
           backgroundImage: AssetImage('assets/images/portrait.png'),

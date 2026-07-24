@@ -15,7 +15,13 @@ class HomePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('Posts'),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text(
+                  'Posts',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ),
               Spacer(),
               TextButton(
                 onPressed: () {
@@ -83,22 +89,34 @@ class PostItem extends StatelessWidget {
   final PostModel postModel;
   final HomeViewmodel vm;
 
-  Widget createPostHeader(String email) {
+  Widget createPostHeader(BuildContext context, String email) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          decoration: BoxDecoration(color: Color.fromARGB(255, 25, 25, 212)),
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: CircleAvatar(
+            foregroundImage: AssetImage('assets/images/portrait.png'),
+          ),
         ),
-        Text(email),
+        SizedBox(width: 8),
+        Text(email, style: Theme.of(context).textTheme.labelSmall),
       ],
     );
   }
 
-  Widget createPostBody(String title) {
+  Widget createPostBody(BuildContext context, String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            fontSize: 28,
+            fontWeight: FontWeight(600),
+          ),
+        ),
         if (postModel.images != null && postModel.images!.isNotEmpty)
           Image(image: NetworkImage(postModel.images![0].publicUrl)),
       ],
@@ -185,8 +203,8 @@ class PostItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            createPostHeader(postModel.createdBy),
-            createPostBody(postModel.title),
+            createPostHeader(context, postModel.createdBy),
+            createPostBody(context, postModel.title),
             createPostActionsContainer(context),
           ],
         ),

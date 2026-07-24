@@ -36,20 +36,64 @@ class PostPage extends StatelessWidget {
               final post = snapshot.data!;
               return SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     /// POST IMAGE
                     if (post.images != null && post.images!.isNotEmpty)
                       Image(image: NetworkImage(post.images![0].publicUrl)),
 
-                    /// POST TITLE
-                    Text(post.title),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 12.0,
+                        right: 12.0,
+                        top: 8,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircleAvatar(
+                                  foregroundImage: AssetImage(
+                                    'assets/images/portrait.png',
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                post.createdBy,
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                            ],
+                          ),
 
-                    /// POST BODY
-                    Text(post.body),
-                    Divider(height: 120, thickness: 80),
-                    CommentForm(postId: postId),
-                    Divider(height: 80, thickness: 1),
-                    CommentSection(postId: postId, vm: vm),
+                          /// POST TITLE
+                          Text(
+                            post.title,
+                            style: Theme.of(context).textTheme.bodyLarge!
+                                .copyWith(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight(600),
+                                ),
+                          ),
+
+                          /// POST BODY
+                          Text(
+                            post.body,
+                            style: Theme.of(context).textTheme.bodyMedium!
+                                .copyWith(color: Colors.white60),
+                          ),
+                          Divider(height: 80, thickness: 1),
+                          CommentForm(postId: postId),
+
+                          Divider(height: 80, thickness: 1),
+                          CommentSection(postId: postId, vm: vm),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -74,7 +118,7 @@ class _CommentFormState extends State<CommentForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _bodyController = TextEditingController();
 
-  Widget showForm(PostsViewmodel vm) {
+  Widget showForm(BuildContext context, PostsViewmodel vm) {
     if (vm.authService.isLoggedIn) {
       return Column(
         children: [
@@ -126,7 +170,7 @@ class _CommentFormState extends State<CommentForm> {
   Widget build(BuildContext context) {
     return Consumer<PostsViewmodel>(
       builder: (context, value, child) =>
-          Form(key: _formKey, child: showForm(value)),
+          Form(key: _formKey, child: showForm(context, value)),
     );
   }
 }
@@ -176,16 +220,25 @@ class CommentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(),
-        SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(commentModel.createdBy), Text(commentModel.body)],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(),
+          SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                commentModel.createdBy,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              Text(commentModel.body),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

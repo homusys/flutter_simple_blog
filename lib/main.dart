@@ -36,10 +36,15 @@ Future<void> main() async {
 }
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
+  /// Media Breakpoints
+  static const double phoneWidth = 425.0;
+  static const double tabletWidth = 768.0;
+  static const double laptopWidth = 1024.0;
 
   final MainAppTheme mainAppTheme = MainAppTheme();
   final String appTitle = 'Simple Blog App';
+
+  MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +97,9 @@ class AppNavigatorState extends State<AppNavigator> {
     }
   }
 
-  Widget? showUserAvatar(bool isLogged) {
+  Widget showUserAvatar(bool isLogged) {
     if (currentPageIndex == 2) {
-      return null;
+      return SizedBox.shrink();
     }
     if (isLogged) {
       /// TODO: Replace with user's profile image if there is any
@@ -111,25 +116,43 @@ class AppNavigatorState extends State<AppNavigator> {
     return Consumer<UsersViewmodel>(
       builder: (context, vm, child) => Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: showUserAvatar(vm.authService.isLoggedIn),
+          title: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 500),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                showUserAvatar(vm.authService.isLoggedIn),
+                Expanded(
+                  child: Center(
+                    child: Text(appBarPageLabels[vm.currentPageIndex]),
+                  ),
+                ),
+              ],
+            ),
           ),
-          title: Text(appBarPageLabels[vm.currentPageIndex]),
           centerTitle: true,
         ),
-        body: updatePage(vm.currentPageIndex),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: vm.currentPageIndex,
-          onDestinationSelected: vm.updatePageIndex,
-          destinations: <NavigationDestination>[
-            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),
-            NavigationDestination(
-              icon: Icon(Icons.account_circle),
-              label: 'Profile',
-            ),
-          ],
+        body: Align(
+          alignment: AlignmentGeometry.topCenter,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: updatePage(vm.currentPageIndex),
+          ),
+        ),
+        bottomNavigationBar: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: NavigationBar(
+            selectedIndex: vm.currentPageIndex,
+            onDestinationSelected: vm.updatePageIndex,
+            destinations: <NavigationDestination>[
+              NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+              NavigationDestination(icon: Icon(Icons.add), label: 'New Post'),
+              NavigationDestination(
+                icon: Icon(Icons.account_circle),
+                label: 'Profile',
+              ),
+            ],
+          ),
         ),
       ),
     );

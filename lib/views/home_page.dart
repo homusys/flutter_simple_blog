@@ -171,27 +171,24 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 1, 12, 0),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PostPage(postId: postModel.postId),
-            ),
-          );
-        },
-        child: Ink(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              createPostHeader(postModel.createdBy),
-              createPostBody(postModel.title),
-              createPostActionsContainer(context),
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PostPage(postId: postModel.postId),
           ),
+        );
+      },
+      child: Ink(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            createPostHeader(postModel.createdBy),
+            createPostBody(postModel.title),
+            createPostActionsContainer(context),
+          ],
         ),
       ),
     );
